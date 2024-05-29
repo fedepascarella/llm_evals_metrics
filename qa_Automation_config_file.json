@@ -1,0 +1,96 @@
+{
+    "LLM_APP": {
+        "prompt_quantity": 5,
+        "system_prompt": {
+            "task": {
+                "role": "",
+                "command": "",
+                "topic": ""
+            },
+            "instructions": {
+                "output_format_structure": "",
+                "qualities_for_the_output": "",
+                "content": "",
+                "do_donts": ""
+            },
+            "context": {
+                "perspective": "",
+                "goal": "",
+                "target_audience": ""
+            }
+        },
+        "type": {
+            "rag": "",
+            "conversational_chatbot": "",
+            "assistant": ""
+        },
+        "description": "Assist users with troubleshooting software problems.",
+        "use_case": "Technical Support for Software Issues",
+        "llm_models": {
+            "openai": "",
+            "mistral": "",
+            "antrophic": "",
+            "llama": "",
+            "parameters": {
+                "temperature": "",
+                "top_k": "",
+                "top_p": "",
+                "frecuency_penalty": ""
+            }
+        }
+    },
+    "PROMP_ENGINEERING": {
+        "overall_Dataset_size": "",
+        "repass_prompts": {
+            "action": "",
+            "repeat_size": ""
+        },
+        "categories": {
+            "chain_of_thought": "",
+            "tree_of_thought": "",
+            "zero_shot": "",
+            "few_shot": "",
+            "self-consistency": "",
+            "generated_knowledge_prompting": "",
+            "prompt_chaining": "",
+            "Automatic Reasoning and Tool-use": "",
+            "active_prompt": "",
+            "directional_stimulus_prompting": "",
+            "react": "",
+            "multimodal_cot": "",
+            "graph": ""
+        }
+    },
+    "METRICS": {
+        "kpi_1": "",
+        "kpi_2": "",
+        "kpi_3": ""
+    },
+    "EVALUATORS": {
+        "g-eval": "",
+        "summarization": "",
+        "faithfulness": "",
+        "answer_relevancy": "",
+        "contextual_relevancy": "",
+        "contextual_precision": "",
+        "contextual_recall": "",
+        "hallucination": "",
+        "toxicity": "",
+        "bias": "",
+        "ux": {}
+    },
+    "DATA": {
+        "path": "",
+        "formats": {
+            "pdf": "",
+            "docx": "",
+            "pptx": "",
+            "xlsx": "",
+            "txt": "",
+            "mp4": "",
+            "mp3": "",
+            "png": "",
+            "jpg": ""
+        }
+    }
+}
