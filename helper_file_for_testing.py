@@ -85,23 +85,4 @@ Ethical Considerations:
 Follow ethical guidelines, avoiding the generation of harmful or inappropriate content.
 """
 
-input1 = "Write a System Prompt based on the given instructions"
-
-# Initialize the AzureOpenAI LLM
-llm = AzureChatOpenAI(deployment_name="gpt4-o", verbose=True,
-                      temperature=0.5)
-
-# Create the prompt template
-prompt = ChatPromptTemplate.from_messages([
-    SystemMessage(content=AGENT_SYSTEM_PROMPT),
-    HumanMessage(content="{input}")
-])
-
-output_parser = StrOutputParser()
-
-# Create and run the chain
-chain = prompt | llm | output_parser
-
-
-result = chain.invoke({"input": input1})
-print(result)
+print(AGENT_SYSTEM_PROMPT)

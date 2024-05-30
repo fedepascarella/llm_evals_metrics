@@ -1,5 +1,6 @@
 {
     "LLM_APP": {
+        "given_system_prompt": "",
         "prompt_quantity": 5,
         "system_prompt": {
             "task": {
