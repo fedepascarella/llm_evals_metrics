@@ -24,7 +24,7 @@ app_Description = llm_App["description"]
 app_Use_Case = llm_App["use_case"]
 system_Prompt_Size = llm_App["prompt_quantity"]
 
-PROVIDED_SYSTEM_PROMPT = llm_App["given_system_prompt"]
+PROVIDED_SYSTEM_PROMPT = llm_App.get("given_system_prompt", "")
 
 AGENT_SYSTEM_PROMPT = f"""
 Objectives:
