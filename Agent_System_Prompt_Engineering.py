@@ -2,7 +2,7 @@ import os
 import json
 from dotenv import load_dotenv
 from langchain.agents import tool
-from langchain_openai import AzureOpenAI
+from langchain_openai import AzureChatOpenAI, AzureOpenAI
 from langchain.schema import SystemMessage, HumanMessage, StrOutputParser
 from langchain.prompts import ChatPromptTemplate
 
@@ -27,7 +27,7 @@ system_Prompt_Size = llm_App["prompt_quantity"]
 
 AGENT_SYSTEM_PROMPT = """
 Generate New System Prompts: 
-Create new system prompts for other AI agents based on provided user cases and descriptions.
+Create new system prompts for other AI agents based on provided user cases here {use_case} and descriptions here {description}.
 Revise Existing Prompts: If a system prompt is already present in the configuration file, generate multiple new versions of it.
 Ensure Quality and Relevance: Ensure that all generated prompts are relevant, clear, and effective for their intended purposes.
 """
@@ -35,7 +35,8 @@ Ensure Quality and Relevance: Ensure that all generated prompts are relevant, cl
 input1 = "Write a System Prompt based on the given instructions"
 
 # Initialize the AzureOpenAI LLM
-llm = AzureOpenAI(deployment_name="gpt35-turbo")
+llm = AzureOpenAI(deployment_name="Completion",
+                  temperature=0.5)
 
 # Create the prompt template
 prompt = ChatPromptTemplate.from_messages([
