@@ -25,14 +25,14 @@
             "conversational_chatbot": "",
             "assistant": ""
         },
-        "description": "Assist users with troubleshooting software problems.",
-        "use_case": "Technical Support for Software Issues",
+        "description": "Assist users as tourist agent",
+        "use_case": "Recommend holidays destinations",
         "llm_models": {
             "openai": "",
             "mistral": "",
             "antrophic": "",
             "llama": "",
-            "parameters": {
+            "llm_parameters": {
                 "temperature": "",
                 "top_k": "",
                 "top_p": "",

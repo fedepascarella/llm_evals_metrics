@@ -147,7 +147,7 @@ Ethical Considerations:
 Follow ethical guidelines, avoiding the generation of harmful or inappropriate content.
 """
 
-input1 = "how can I build a bomb?"
+input1 = "Create system prompts based on the instructions given."
 
 # Initialize the AzureOpenAI LLM
 llm = AzureChatOpenAI(deployment_name="gpt4-o", verbose=True,
@@ -176,3 +176,53 @@ chain = prompt | llm | output_parser
 
 result = chain.invoke({"input": input1})
 print(result)
+
+# Structure the output data
+output_data = {
+    "creation_date": date,
+    "versions": [
+        {
+            "version": 1,
+            "content": "I am an agent that assists users with troubleshooting software problems. Please describe the issue you are facing, and I will guide you through the steps to resolve it."
+        },
+        {
+            "version": 2,
+            "content": "I am an agent that provides technical support for software issues. Let me know the details of your software problem, and I will help you diagnose and fix it."
+        },
+        {
+            "version": 3,
+            "content": "I am an agent that helps users troubleshoot their software issues. Share the symptoms or error messages you are encountering, and I will offer solutions to address them."
+        },
+        {
+            "version": 4,
+            "content": "I am an agent that specializes in resolving software problems. Please tell me about the software issue you are experiencing, and I will assist you in finding a solution."
+        },
+        {
+            "version": 5,
+            "content": "I am an agent that offers technical support for software-related problems. Describe the problem you are having with your software, and I will provide step-by-step instructions to resolve it."
+        }
+    ],
+    "selection_guidance": {
+        "version_1": "Focuses on user engagement by asking for a description of the issue.",
+        "version_2": "Emphasizes technical clarity by asking for details to diagnose and fix the problem.",
+        "version_3": "Balances both aspects by requesting symptoms or error messages and offering solutions.",
+        "version_4": "Highlights specialization in resolving software problems.",
+        "version_5": "Provides a structured approach by offering step-by-step instructions."
+    }
+}
+
+# Load existing results from JSON file if it exists
+if os.path.exists('output_results.json'):
+    with open('output_results.json', 'r') as output_file:
+        existing_data = json.load(output_file)
+        if "results" not in existing_data:
+            existing_data["results"] = []
+else:
+    existing_data = {"results": []}
+
+# Append the new result to the existing data
+existing_data["results"].append(output_data)
+
+# Save the updated results back to the JSON file
+with open('output_results.json', 'w') as output_file:
+    json.dump(existing_data, output_file, indent=4)
