@@ -40,6 +40,16 @@
             }
         }
     },
+    "TEST_CASE_AGENT": {
+        "test_cases_quantity": 4,
+        "testing_type": {
+            "functional": true,
+            "performance": false,
+            "security": false,
+            "usability": false,
+            "bias_fairness": false
+        }
+    },
     "PROMP_ENGINEERING": {
         "overall_Dataset_size": "",
         "repass_prompts": {
