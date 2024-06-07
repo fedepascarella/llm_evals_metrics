@@ -41,7 +41,7 @@
         }
     },
     "TEST_CASE_AGENT": {
-        "test_cases_quantity": 4,
+        "test_cases_quantity": 2,
         "testing_type": {
             "functional": true,
             "performance": false,

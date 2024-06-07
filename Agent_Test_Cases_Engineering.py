@@ -23,9 +23,11 @@ date = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 config_Test_Case_Agent = input_data['TEST_CASE_AGENT']
 quantity_Test_Cases = config_Test_Case_Agent['test_cases_quantity']
 test_types = config_Test_Case_Agent['testing_type']
+llm_App = input_data["LLM_APP"]
+app_Description = llm_App["description"]
 
 TEST_CASE_AGENT_SYSTEM_PROMPT = f"""
-Always follow this instructions. You are an LLM agent designed to generate this amount {quantity_Test_Cases} of QA test cases. Follow these steps:
+Always follow this instructions. You are an LLM agent designed to generate this amount {quantity_Test_Cases} of QA test cases based on this {app_Description}. Follow these steps:
 
 1. For each test case, generate a detailed test case, including:
    - Test Case ID

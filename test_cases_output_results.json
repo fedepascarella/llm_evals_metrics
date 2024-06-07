@@ -68,6 +68,75 @@
                     ]
                 }
             ]
+        },
+        {
+            "test_cases": [
+                {
+                    "test_case_id": "TC001",
+                    "creation_date": "10-05-2023 14:30:00",
+                    "description": "Verify user login functionality",
+                    "preconditions": [
+                        "User is registered",
+                        "User is on the login page"
+                    ],
+                    "steps": [
+                        "Enter valid username",
+                        "Enter valid password",
+                        "Click on the login button"
+                    ],
+                    "expected_results": [
+                        "User is redirected to the dashboard"
+                    ]
+                },
+                {
+                    "test_case_id": "TC002",
+                    "creation_date": "10-05-2023 14:35:00",
+                    "description": "Verify user logout functionality",
+                    "preconditions": [
+                        "User is logged in"
+                    ],
+                    "steps": [
+                        "Click on the logout button"
+                    ],
+                    "expected_results": [
+                        "User is redirected to the login page"
+                    ]
+                },
+                {
+                    "test_case_id": "TC003",
+                    "creation_date": "10-05-2023 14:40:00",
+                    "description": "Verify password reset functionality",
+                    "preconditions": [
+                        "User is on the login page"
+                    ],
+                    "steps": [
+                        "Click on the 'Forgot Password' link",
+                        "Enter registered email address",
+                        "Click on the 'Reset Password' button"
+                    ],
+                    "expected_results": [
+                        "User receives a password reset email"
+                    ]
+                },
+                {
+                    "test_case_id": "TC004",
+                    "creation_date": "10-05-2023 14:45:00",
+                    "description": "Verify user registration functionality",
+                    "preconditions": [
+                        "User is on the registration page"
+                    ],
+                    "steps": [
+                        "Enter valid username",
+                        "Enter valid email",
+                        "Enter valid password",
+                        "Click on the 'Register' button"
+                    ],
+                    "expected_results": [
+                        "User receives a confirmation email",
+                        "User is redirected to the login page"
+                    ]
+                }
+            ]
         }
     ]
 }
