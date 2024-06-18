@@ -78,16 +78,16 @@
         "kpi_3": ""
     },
     "EVALUATORS": {
-        "g-eval": "",
-        "summarization": "",
-        "faithfulness": "",
-        "answer_relevancy": "",
-        "contextual_relevancy": "",
-        "contextual_precision": "",
-        "contextual_recall": "",
-        "hallucination": "",
-        "toxicity": "",
-        "bias": "",
+        "g-eval": false,
+        "summarization": false,
+        "faithfulness": true,
+        "answer_relevancy": false,
+        "contextual_relevancy": false,
+        "contextual_precision": false,
+        "contextual_recall": false,
+        "hallucination": false,
+        "toxicity": false,
+        "bias": false,
         "ux": {}
     },
     "DATA": {
