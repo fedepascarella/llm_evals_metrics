@@ -82,7 +82,7 @@
         "summarization": false,
         "faithfulness": true,
         "answer_relevancy": false,
-        "contextual_relevancy": false,
+        "contextual_relevancy": true,
         "contextual_precision": false,
         "contextual_recall": false,
         "hallucination": false,

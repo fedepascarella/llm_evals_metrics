@@ -78,220 +78,160 @@ dataset.add_test_cases_from_csv_file(
     retrieval_context_col_delimiter=";"
 )
 
-
 # timestamp
 date = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-
-# Path to your CSV file
-# file_path = 'mock_dataset.csv'
-
-# Read the CSV file into a DataFrame
-# df = pd.read_csv(file_path)
-
-# Display the first few rows of the DataFrame
-# print(df.head())
 
 # Define your metric functions
 
 
 def g_eval(data):
-    for row in data:
-        correctness_test_case = LLMTestCase(
-            input=row["input"],
-            actual_output=row["actual_output"],
-            expected_output=row["expected_output"]
-        )
 
-        correctness_metric = GEval(
-            name="Correctness",
-            criteria="Determine whether the actual output is factually correct based on the expected output.",
-            evaluation_steps=[
-                "Check whether the facts in 'actual output' contradict any facts in 'expected output'",
-                "You should also heavily penalize omission of detail",
-                "Vague language, or contradicting OPINIONS, are OK"
-            ],
-            evaluation_params=[LLMTestCaseParams.INPUT,
-                               LLMTestCaseParams.ACTUAL_OUTPUT],
-            threshold=0.6,
-            model=azure_openai,
-            verbose_mode=True
-        )
+    correctness_metric = GEval(
+        name="Correctness",
+        criteria="Determine whether the actual output is factually correct based on the expected output.",
+        evaluation_steps=[
+            "Check whether the facts in 'actual output' contradict any facts in 'expected output'",
+            "You should also heavily penalize omission of detail",
+            "Vague language, or contradicting OPINIONS, are OK"
+        ],
+        evaluation_params=[LLMTestCaseParams.INPUT,
+                           LLMTestCaseParams.ACTUAL_OUTPUT],
+        threshold=0.6,
+        model=azure_openai,
+        verbose_mode=True
+    )
 
-        correctness_metric.measure(correctness_test_case)
-        yield correctness_metric.score, correctness_metric.reason
+    correctness_test_case = dataset.evaluate([correctness_metric])
+    yield correctness_test_case
 
 
-def summarization(data):
-    for row in data:
-        summarization_test_case = LLMTestCase(
-            input=row["input"], actual_output=row["actual_output"])
-        summarization_metric = SummarizationMetric(
-            threshold=0.5,
-            model=azure_openai,
-            verbose_mode=True,
-            assessment_questions=[
-                "Is the coverage score based on a percentage of 'yes' answers?",
-                "Does the score ensure the summary's accuracy with the source?",
-                "Does a higher score mean a more comprehensive summary?"
-            ]
-        )
+def summarization():
 
-        summarization_metric.measure(summarization_test_case)
-        yield summarization_metric.score, summarization_metric.reason
+    summarization_metric = SummarizationMetric(
+        threshold=0.5,
+        model=azure_openai,
+        verbose_mode=True,
+        assessment_questions=[
+            "Is the coverage score based on a percentage of 'yes' answers?",
+            "Does the score ensure the summary's accuracy with the source?",
+            "Does a higher score mean a more comprehensive summary?"
+        ]
+    )
+
+    summarization_test_case = dataset.evaluate([summarization_metric])
+    yield summarization_test_case
 
 
 def faithfulness():
-    # for row in data:
+
     faithfulness_metric = FaithfulnessMetric(
         threshold=0.7,
         model=azure_openai,
         include_reason=True,
         verbose_mode=True
     )
-    # Ensure retrieval_context is a list of strings
-    # retrieval_context = row["retrieval_context"] if row["retrieval_context"] else None
-    # faithfulness_test_case = LLMTestCase(
-    #    input=row["input"],
-    #    actual_output=row["actual_output"],
-    #    retrieval_context=retrieval_context
-    # )
-    faithfulness_test_case = dataset.evaluate([faithfulness_metric])
-    # faithfulness_metric.measure(faithfulness_test_case)
 
-    # yield faithfulness_metric.score, faithfulness_metric.reason
+    faithfulness_test_case = dataset.evaluate([faithfulness_metric])
     yield faithfulness_test_case
 
 
-def answer_relevancy(data):
-    for row in data:
-        answer_relevancy_metric = AnswerRelevancyMetric(
-            threshold=0.7,
-            model=azure_openai,
-            include_reason=True,
-            verbose_mode=True
-        )
-        answer_relevancy_test_case = LLMTestCase(
-            input=row["input"],
-            actual_output=row["actual_output"]
-        )
+def answer_relevancy():
 
-        answer_relevancy_metric.measure(answer_relevancy_test_case)
-        yield answer_relevancy_metric.score, answer_relevancy_metric.reason
+    answer_relevancy_metric = AnswerRelevancyMetric(
+        threshold=0.7,
+        model=azure_openai,
+        include_reason=True,
+        verbose_mode=True
+    )
+    answer_relevancy_test_case = dataset.evaluate([answer_relevancy_metric])
+    yield answer_relevancy_test_case
 
 
-def contextual_relevancy(data):
-    for row in data:
-        contextual_relevancy_metric = ContextualRelevancyMetric(
-            threshold=0.7,
-            model=azure_openai,
-            include_reason=True,
-            verbose_mode=True
-        )
-        retrieval_context = row["retrieval_context"] if row["retrieval_context"] else None
-        contextual_relevancy_test_case = LLMTestCase(
-            input=row["input"],
-            actual_output=row["actual_output"],
-            retrieval_context=retrieval_context
-        )
+def contextual_relevancy():
 
-        contextual_relevancy_metric.measure(contextual_relevancy_test_case)
-        yield contextual_relevancy_metric.score, contextual_relevancy_metric.reason
+    contextual_relevancy_metric = ContextualRelevancyMetric(
+        threshold=0.7,
+        model=azure_openai,
+        include_reason=True,
+        verbose_mode=True
+    )
+
+    contextual_relevancy_test_case = dataset.evaluate(
+        [contextual_relevancy_metric])
+
+    yield contextual_relevancy_test_case
 
 
-def contextual_precision(data):
-    for row in data:
-        contextual_precision_metric = ContextualPrecisionMetric(
-            threshold=0.7,
-            model=azure_openai,
-            include_reason=True,
-            verbose_mode=True
-        )
-        retrieval_context = row["retrieval_context"] if row["retrieval_context"] else None
-        contextual_precision_test_case = LLMTestCase(
-            input=row["input"],
-            actual_output=row["actual_output"],
-            expected_output=row["expected_output"],
-            retrieval_context=retrieval_context
-        )
+def contextual_precision():
 
-        contextual_precision_metric.measure(contextual_precision_test_case)
-        yield contextual_precision_metric.score, contextual_precision_metric.reason
+    contextual_precision_metric = ContextualPrecisionMetric(
+        threshold=0.7,
+        model=azure_openai,
+        include_reason=True,
+        verbose_mode=True
+    )
+    contextual_precision_test_case = dataset.evaluate(
+        [contextual_precision_metric])
+
+    yield contextual_precision_test_case
 
 
-def contextual_recall(data):
-    for row in data:
-        contextual_recall_metric = ContextualRecallMetric(
-            threshold=0.7,
-            model=azure_openai,
-            include_reason=True
-        )
-        retrieval_context = row["retrieval_context"] if row["retrieval_context"] else None
-        contextual_recall_test_case = LLMTestCase(
-            input=row["input"],
-            actual_output=row["actual_output"],
-            expected_output=row["expected_output"],
-            retrieval_context=retrieval_context
-        )
+def contextual_recall():
 
-        contextual_recall_metric.measure(contextual_recall_test_case)
-        yield contextual_recall_metric.score, contextual_recall_metric.reason
+    contextual_recall_metric = ContextualRecallMetric(
+        threshold=0.7,
+        model=azure_openai,
+        include_reason=True,
+        verbose_mode=True
+    )
+
+    contextual_recall_test_case = dataset.evaluate([contextual_recall_metric])
+
+    yield contextual_recall_test_case
 
 
-def hallucination(data):
-    for row in data:
-        hallucination_test_case = LLMTestCase(
-            input=row["input"],
-            actual_output=row["actual_output"],
-            context=row["context"] if row["context"] else None
-        )
-        hallucination_metric = HallucinationMetric(
-            threshold=0.5,
-            model=azure_openai,
-            include_reason=True,
-            verbose_mode=True
-        )
+def hallucination():
 
-        hallucination_metric.measure(hallucination_test_case)
-        yield hallucination_metric.score, hallucination_metric.reason
+    hallucination_metric = HallucinationMetric(
+        threshold=0.5,
+        model=azure_openai,
+        include_reason=True,
+        verbose_mode=True
+    )
+
+    hallucination_test_case = dataset.evaluate([hallucination_metric])
+    yield hallucination_test_case
 
 
-def toxicity(data):
-    for row in data:
-        toxicity_metric = ToxicityMetric(
-            threshold=0.5,
-            model=azure_openai,
-            include_reason=True,
-            verbose_mode=True
-        )
-        toxicity_test_case = LLMTestCase(
-            input=row["input"],
-            actual_output=row["actual_output"]
-        )
+def toxicity():
 
-        toxicity_metric.measure(toxicity_test_case)
-        yield toxicity_metric.score, toxicity_metric.reason
+    toxicity_metric = ToxicityMetric(
+        threshold=0.5,
+        model=azure_openai,
+        include_reason=True,
+        verbose_mode=True
+    )
+    toxicity_test_case = dataset.evaluate([toxicity_metric])
+
+    yield toxicity_test_case
 
 
-def bias(data):
-    for row in data:
-        bias_metric = BiasMetric(
-            threshold=0.5,
-            model=azure_openai,
-            include_reason=True,
-            verbose_mode=True
-        )
-        bias_test_case = LLMTestCase(
-            input=row["input"],
-            actual_output=row["actual_output"]
-        )
+def bias():
 
-        bias_metric.measure(bias_test_case)
-        yield bias_metric.score, bias_metric.reason
+    bias_metric = BiasMetric(
+        threshold=0.5,
+        model=azure_openai,
+        include_reason=True,
+        verbose_mode=True
+    )
+    bias_test_case = dataset.evaluate([bias_metric])
+
+    yield bias_test_case
 
 
-def ux(data):
-    for row in data:
-        yield "ux result", ""
+def ux():
+
+    yield "ux result", ""
 
 
 # Step 1: Load the JSON file
@@ -325,11 +265,24 @@ def metric_selector(config):
         if is_enabled:
             metric_function = metric_functions[metric_name]
             for metric_result in metric_function():
-                results.append({
+                flattened_result = {
                     "timestamp": date,
-                    "metric": metric_name,
-                    "result": metric_result
-                })
+                    "metric": metric_name
+                }
+
+                # Flatten the metric_result dictionary
+                if isinstance(metric_result, dict):
+                    for key, value in metric_result.items():
+                        flattened_result[key] = value
+                elif isinstance(metric_result, list):
+                    for idx, item in enumerate(metric_result):
+                        if isinstance(item, dict):
+                            for key, value in item.items():
+                                flattened_result[f"{key}_{idx}"] = value
+                        else:
+                            flattened_result[f"item_{idx}"] = item
+
+                results.append(flattened_result)
 
     return results
 
@@ -343,9 +296,12 @@ if __name__ == "__main__":
     results_df = pd.DataFrame(results)
 
     # Display the DataFrame
-    print(results_df.columns)
+    print(results_df.describe())
 
     # Save the DataFrame to a CSV file
     results_df.to_csv("results.csv", index=False)
 
     print("Results saved to 'results.csv'.")
+
+    # Step 2: Read the CSV file into a DataFrame
+    df = pd.read_csv('results.csv')
