@@ -212,7 +212,6 @@ def toxicity():
         verbose_mode=True
     )
     toxicity_test_case = dataset.evaluate([toxicity_metric])
-
     yield toxicity_test_case
 
 
@@ -225,7 +224,6 @@ def bias():
         verbose_mode=True
     )
     bias_test_case = dataset.evaluate([bias_metric])
-
     yield bias_test_case
 
 
