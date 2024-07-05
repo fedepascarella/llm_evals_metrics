@@ -1,5 +1,6 @@
 import os
 import json
+import re
 from datetime import datetime
 from dotenv import load_dotenv
 from langchain.agents import tool
@@ -177,39 +178,35 @@ chain = prompt | llm | output_parser
 result = chain.invoke({"input": input1})
 print(result)
 
-# Structure the output data
-output_data = {
-    "creation_date": date,
-    "versions": [
-        {
-            "version": 1,
-            "content": "I am an agent that assists users with troubleshooting software problems. Please describe the issue you are facing, and I will guide you through the steps to resolve it."
-        },
-        {
-            "version": 2,
-            "content": "I am an agent that provides technical support for software issues. Let me know the details of your software problem, and I will help you diagnose and fix it."
-        },
-        {
-            "version": 3,
-            "content": "I am an agent that helps users troubleshoot their software issues. Share the symptoms or error messages you are encountering, and I will offer solutions to address them."
-        },
-        {
-            "version": 4,
-            "content": "I am an agent that specializes in resolving software problems. Please tell me about the software issue you are experiencing, and I will assist you in finding a solution."
-        },
-        {
-            "version": 5,
-            "content": "I am an agent that offers technical support for software-related problems. Describe the problem you are having with your software, and I will provide step-by-step instructions to resolve it."
-        }
-    ],
-    "selection_guidance": {
-        "version_1": "Focuses on user engagement by asking for a description of the issue.",
-        "version_2": "Emphasizes technical clarity by asking for details to diagnose and fix the problem.",
-        "version_3": "Balances both aspects by requesting symptoms or error messages and offering solutions.",
-        "version_4": "Highlights specialization in resolving software problems.",
-        "version_5": "Provides a structured approach by offering step-by-step instructions."
+print("Raw result from LLM:", result)  # Debug print
+
+# Parse the raw result into a structured format
+
+
+def parse_llm_output(output):
+    pattern = r"Version \d+:\s*(.*?)\s*(?=\n###|Version \d+|Selection Guidance:|$)"
+    versions = re.findall(pattern, output, re.DOTALL)
+    selection_guidance = re.search(
+        r"Selection Guidance:\s*(.*)", output, re.DOTALL)
+
+    if not versions:
+        print("No versions found in the output.")
+        return {"test_cases": []}
+
+    parsed_data = {
+        "creation_date": re.search(r"Creation date:\s*(.*)", output).group(1).strip(),
+        "versions": [{"content": version.strip()} for version in versions]
     }
-}
+
+    if selection_guidance:
+        parsed_data["selection_guidance"] = selection_guidance.group(
+            1).strip().split("\n")
+
+    return parsed_data
+
+
+parsed_data = parse_llm_output(result)
+print("Parsed output data:", parsed_data)  # Debug print
 
 # Load existing results from JSON file if it exists
 if os.path.exists('output_results.json'):
@@ -220,9 +217,14 @@ if os.path.exists('output_results.json'):
 else:
     existing_data = {"results": []}
 
+print("Existing data before appending new result:", existing_data)  # Debug print
+
 # Append the new result to the existing data
-existing_data["results"].append(output_data)
+existing_data["results"].append(parsed_data)
+
+print("Data to be written to file:", existing_data)  # Debug print
 
 # Save the updated results back to the JSON file
 with open('output_results.json', 'w') as output_file:
     json.dump(existing_data, output_file, indent=4)
+    print("Data successfully written to output_results.json")  # Debug print

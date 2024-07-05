@@ -25,9 +25,10 @@ quantity_Test_Cases = config_Test_Case_Agent['test_cases_quantity']
 test_types = config_Test_Case_Agent['testing_type']
 llm_App = input_data["LLM_APP"]
 app_Description = llm_App["description"]
+use_Case = llm_App["use_case"]
 
 TEST_CASE_AGENT_SYSTEM_PROMPT = f"""
-Always follow this instructions. You are an LLM agent designed to generate this amount {quantity_Test_Cases} of QA test cases based on this {app_Description}. Follow these steps:
+Always follow this instructions. You are an LLM agent designed to generate this amount {quantity_Test_Cases} of QA test cases based on this {app_Description} and this {use_Case}. Follow these steps:
 
 1. For each test case, generate a detailed test case, including:
    - Test Case ID
@@ -105,7 +106,7 @@ print(full_prompt)
 
 # Initialize the AzureOpenAI LLM
 llm = AzureChatOpenAI(deployment_name="gpt4-o", verbose=True,
-                      temperature=0.5)
+                      temperature=0.9)
 
 prompt = ChatPromptTemplate.from_messages([
     SystemMessage(content=TEST_CASE_AGENT_SYSTEM_PROMPT),
@@ -120,42 +121,12 @@ chain = prompt | llm | output_parser
 result = chain.invoke({"input": full_prompt})
 print(result)
 
-output_data = {
-    "test_cases": [
-        {
-            "test_case_id": "TC001",
-            "creation_date": "10-05-2023 14:30:00",
-            "description": "Verify user login functionality",
-            "preconditions": ["User is registered", "User is on the login page"],
-            "steps": ["Enter valid username", "Enter valid password", "Click on the login button"],
-            "expected_results": ["User is redirected to the dashboard"]
-        },
-        {
-            "test_case_id": "TC002",
-            "creation_date": "10-05-2023 14:35:00",
-            "description": "Verify user logout functionality",
-            "preconditions": ["User is logged in"],
-            "steps": ["Click on the logout button"],
-            "expected_results": ["User is redirected to the login page"]
-        },
-        {
-            "test_case_id": "TC003",
-            "creation_date": "10-05-2023 14:40:00",
-            "description": "Verify password reset functionality",
-            "preconditions": ["User is on the login page"],
-            "steps": ["Click on the 'Forgot Password' link", "Enter registered email address", "Click on the 'Reset Password' button"],
-            "expected_results": ["User receives a password reset email"]
-        },
-        {
-            "test_case_id": "TC004",
-            "creation_date": "10-05-2023 14:45:00",
-            "description": "Verify user registration functionality",
-            "preconditions": ["User is on the registration page"],
-            "steps": ["Enter valid username", "Enter valid email", "Enter valid password", "Click on the 'Register' button"],
-            "expected_results": ["User receives a confirmation email", "User is redirected to the login page"]
-        }
-    ]
-}
+# Ensure the result is in the correct format
+try:
+    output_data = json.loads(result)
+except json.JSONDecodeError as e:
+    print(f"Failed to parse JSON from result: {e}")
+    output_data = {"test_cases": []}
 
 # Load existing results from JSON file if it exists
 if os.path.exists('test_cases_output_results.json'):

@@ -1,0 +1,50 @@
+Data and instructions were once
+stored on external punched cards,
+which were kept in order and
+arranged in program decks.
+Wired control panel for an IBM 402
+Accounting Machine. Wires connect
+pulse streams from the card reader
+to counters and other internal logic
+and ultimately to the printer.In the 1880s , Herman Hollerith invented the concept of storing data
+in machine-readable form.[9] Later a control panel (plug board)
+added to his 1906 Type I Tabulator allowed it to be programmed for
+different jobs, and by the late 1940s , unit record equipment such as
+the IBM 602 and IBM 604, were programmed by control panels in
+a similar way, as were the first electronic computers. However, with
+the concept of the stored-program computer introduc ed in 1949,
+both programs and data were stored and manipulated in the same
+way in computer memory.[10]
+Machine code was the langua ge of early programs, written in the
+instruction set of the particular machine, often in binary notation.
+Assembly langua ges were soon developed that let the programmer
+specify instruction in a text format (e.g., ADD X, TOTAL), with
+abbreviations for each operation code and meaningful names for
+specifying addresses. However, because an assembly langua ge is
+little more than a different notation for a machine langua ge, two machines with different instruction sets also
+have different assembly langua ges.
+High-level langua ges made the process of developing a program
+simpler and more unde rstandable, and less bound to the unde rlying
+hardware. The first compiler related tool, the A-0 System, was
+developed in 1952[11] by Grace Hoppe r, who also coined the term
+'compiler'.[12][13] FORTRAN, the first widely used high-level
+langua ge to have a functional implementation, came out in
+1957,[14] and many other langua ges were soon developed—in
+particular, COBOL aimed at commercial data processing, and Lisp
+for computer research.
+These compiled langua ges allow the programmer to write programs
+in terms that are syntactically richer, and more capable of
+abstracting the code, making it easy to target varying machine
+instruction sets via compilation declarations and heuristics. Compilers harnessed the power of computers to
+make programming easier[14] by allowing programmers to specify calculations by entering a formula using
+infix not ation.Machine language
+Compiler languages
+Source code entry
+
+This document contains information generated using a language model (Azure OpenAI). The information 
+contained in this document is only for demonstration purposes and does not reflect the opinions or 
+beliefs of Microsoft. Microsoft makes no representations or warranties of any kind, express or implied, 
+about the completeness, accuracy, reliability, suitability or availability with respect to the information 
+contained in this document. 
+All rights reserved to Microsoft
+
