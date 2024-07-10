@@ -1,0 +1,68 @@
+{
+    "data": "RETRIEVER",
+    "data_type": "action",
+    "metadata": {
+        "retriever_response": {
+            "query": "What are the current limitations and future directions in the development of bioprocess engineering tools?",
+            "top_k": 5,
+            "search_results": [
+                {
+                    "page_content": "Industry does not yet meet these bioprocess ambitions ( Box 3 ). The challenges for biological\nengineering directly follow from these ambitions (next section). In addition, these ambitions in-\nspire the development of highly improved process development tools, incorporating knownsystems-engineering tools [26,27] , including better and standardized open-source process-\nsimulation tools and databases. Optimized industrial bioreactors should be designed to operate\nnear to the technoeconomic limits of mass and energy transfer [20].Computational fluid dy-\nnamics (CFD) should be integrated with cellular kinetic models (computational reaction dynam-\nics, CRD) and agent-based modeling to impro ve the design of scale- down simulators and\nmicroorganisms [28].\nChallenges in Biological Engineering\nTo achieve the goals set for bioprocess engineering, advanced tools for strain engineering and",
+                    "size": 0,
+                    "metadata": {
+                        "source": "/tmp/Straathof_etal_2019.pdf__8rzfz7tj",
+                        "page": 4
+                    },
+                    "chunk_id": "25562bce-ee40-4d53-8f7f-577b6aa684e8",
+                    "document_id": null,
+                    "page_content_hash": "ffcedbfa738f689566fcabbb1016297d"
+                },
+                {
+                    "page_content": "Industry does not yet meet these bioprocess ambitions ( Box 3 ). The challenges for biological\nengineering directly follow from these ambitions (next section). In addition, these ambitions in-\nspire the development of highly improved process development tools, incorporating knownsystems-engineering tools [26,27] , including better and standardized open-source process-\nsimulation tools and databases. Optimized industrial bioreactors should be designed to operate\nnear to the technoeconomic limits of mass and energy transfer [20].Computational fluid dy-\nnamics (CFD) should be integrated with cellular kinetic models (computational reaction dynam-\nics, CRD) and agent-based modeling to impro ve the design of scale- down simulators and\nmicroorganisms [28].\nChallenges in Biological Engineering\nTo achieve the goals set for bioprocess engineering, advanced tools for strain engineering and\noptimization will be required. These will include genetic engineering objectives such as the inte-gration of genes encoding high-activity and high-speci \ufb01city enzymes needed for product biosyn-\nthesis, reprogramming of centr al carbon metabolism reactions [29], and also modulation of\ncellular \ufb02ux partitioning and regulation in response to extracellular conditions. These modi \ufb01cations\nare summarized using the terms biological engineering and metabolic engineering, in other words\naiming at the best possible design of a production organism. We might coin a name for such or-\nganisms: 'fermenterphiles'. Recent technical and scienti \ufb01c advances provide opportunities for ex-\nciting novel research and development to improve biological engineering:\n(i) Automated strain construction using novel genome-editing tools (e.g., CRISPR/Cas [30]),\nleading to revolutionary acceleration of genet ic engineering and rapid strain development\n[31,32] .\n(ii) Improved strain robustness, both to rapid \ufb02uctuations in the environment of large bioreactors\nand to high concentrations of (toxic) products. Diverse host systems and extended genetic\nresources (e.g., environmental screening [33,34] and new culture technologies [35]) will accel-\nerate such developments.\n(iii) Improved model-based predictions from increased understanding of microbial cells and con-\nsortia thereof [36]. This includes the application of generic correlation models (such as arti \ufb01cial\nintelligence algorithms and machine learning) that can lead to fast work \ufb02ows to predict im-\nproved strains.\n(iv) Rapidly increasing ease and speed of identifying genes encoding new enzymes that catalyze\ndesired or interesting reactions. This includes whole-genome sequencing, annotation, docu-\nmentation, and gene (function) discovery [37,38] .\nBox 3. How Close Is Industry to 'Zero-Concepts'?\nThe Biosuccinium fermentation technology for succinic acid production serves as a leading example [66]. It uses acido-\nphilic conditions, well below the p Kaof the acid, which minimizes the addition of titrants during fermentation and product\nrecovery, resulting in close-to-zero associated waste salt production. However, owing to high proton shuttling across thecell membrane, the fermentation still requires oxygen as an electron acceptor to generate suf \ufb01cient ATP via glucose dis-\nsimilation to CO\n2. Hence, zero-oxygen conditions are not yet feasible. However, metabolic engineering has minimized\nthe formation of organic byproducts and associated carbon spills, and cell retention further allows near-zero cell growth\nconditions, with virtually no bleeds of spent biomass. O 2-enriched air can be used, which increases the CO 2concentration\nin the process such that no additional CO 2supply is needed. Despite pH values around 3, and the use of minimal media,\naseptic conditions are still necessary to reduce contamination. Further, the total energy consumption remains signi \ufb01cant\ndue to downstream water removal, despite the relatively high succinic acid titers ( N120 g/l). Summarizing, scale-up from\n0.01 to N100 m3was successful, and signi \ufb01cant strides were made regarding zero-factors, but further advances will be\nnecessary to achieve the zero-ideal. For other high-performance fermentation processes [7], such as for 1,3-propanediol\n(that is still not anaerobic), farnesene (downstream processing is still necessary to separate the product from the broth),and gluconic acid (signi \ufb01cant water still needs to be evaporated despite titers above 500 g/l), similar challenges remain\nto be solved.Trends in Biotechnology\n1046 Trends in Biotechnology, October 2019, Vol. 37, No. 10",
+                    "size": 0,
+                    "metadata": {
+                        "document_name": "Straathof_etal_2019.pdf",
+                        "page": 4,
+                        "source": "Straathof_etal_2019.pdf"
+                    },
+                    "chunk_id": "c01f7ea1-5100-45a1-ae3f-c20aa1512f9e",
+                    "document_id": null,
+                    "page_content_hash": "8cb2a61d23bb0a8e60be681d20b838cd"
+                },
+                {
+                    "page_content": "26. Kokossis, A. and Yang, A. (2010) On the use of systems\ntechnologies and a systematic approach for the synthesis and\nthe design of future biore \ufb01neries. Comput. Chem. Eng. 34,\n1397 \u20131405\n27. Hemmerich, J. et al. (2017) Generic protocol for optimization of\nheterologous protein production using automated microbioreactortechnology. J. Vis. Exp. (130), e56234\n28. Delvigne, F. et al. (2017) Bioprocess scale-up/down as integra-\ntive enabling technology: from \ufb02uid mechanics to systems biol-\nogy and beyond. Microb. Biotechnol. 10, 1267 \u20131274\n29. Meadows, A.L. et al. (2016) Rewriting yeast central carbon\nmetabolism for industrial isoprenoid production. Nature 537,\n694 \u2013697\n30. Wright, Addison V. et al. (2016) Biology and applications of\nCRISPR systems: harnessing nature \u2019s toolbox for genome engi-\nneering. Cell164, 29 \u201344\n31. Horwitz, Andrew A. et al. (2015) Ef\n\ufb01cient multiplexed integration\nof synergistic alleles and metabolic pathways in yeasts viaCRISPR-Cas. Cell Syst. 1, 88 \u201396",
+                    "size": 0,
+                    "metadata": {
+                        "source": "/tmp/Straathof_etal_2019.pdf__8rzfz7tj",
+                        "page": 8
+                    },
+                    "chunk_id": "64ef3f57-fe7b-40aa-a0f9-15433522ab52",
+                    "document_id": null,
+                    "page_content_hash": "682f91664e06ebe4c34849154743fc65"
+                },
+                {
+                    "page_content": "citing novel research and development to improve biological engineering:\n(i) Automated strain construction using novel genome-editing tools (e.g., CRISPR/Cas [30]),\nleading to revolutionary acceleration of genet ic engineering and rapid strain development\n[31,32] .\n(ii) Improved strain robustness, both to rapid \ufb02uctuations in the environment of large bioreactors\nand to high concentrations of (toxic) products. Diverse host systems and extended genetic\nresources (e.g., environmental screening [33,34] and new culture technologies [35]) will accel-\nerate such developments.\n(iii) Improved model-based predictions from increased understanding of microbial cells and con-\nsortia thereof [36]. This includes the application of generic correlation models (such as arti \ufb01cial\nintelligence algorithms and machine learning) that can lead to fast work \ufb02ows to predict im-\nproved strains.\n(iv) Rapidly increasing ease and speed of identifying genes encoding new enzymes that catalyze",
+                    "size": 0,
+                    "metadata": {
+                        "source": "/tmp/Straathof_etal_2019.pdf__8rzfz7tj",
+                        "page": 4
+                    },
+                    "chunk_id": "866e308a-3f65-4c07-a9fc-1700c2b6cb24",
+                    "document_id": null,
+                    "page_content_hash": "b94f57ddded5245aadfcd7a0dbffc79f"
+                },
+                {
+                    "page_content": "scale-down conditions: blueprint for robustness to bioreactor inho-\nmogeneities. Biotechnol. Bioeng. 114, 560 \u2013575\n36. Kuhn, D. et al. (2010) Systems biotechnology \u2013rational whole-\ncell biocatalyst and bioprocess design. Eng. Life Sci. 10,\n384 \u2013397\n37. Crits-Christoph, A. et al. (2018) Novel soil bacteria possess di-\nverse genes for secondary metabolite biosynthesis. Nature\n558, 440 \u2013444\n38. Owen, C. et al. (2017) Harnessing plant metabolic diversity. Curr.\nOpin. Chem. Biol. 40, 24 \u201330\n39. Donohoue, P.D. et al. (2018) Advances in industrial biotechnol-\nogy using CRISPR-Cas systems. Trends Biotechnol. 36,\n134 \u2013146\n40. Marcellin, E. and Nielsen, L.K. (2018) Advances in analytical tools\nfor high throughput strain engineering. Curr. Opin. Biotechnol.\n54, 33 \u201340\n41. Cole, R.H. et al. (2017) Printed droplet micro \ufb02uidics for on de-\nmand dispensing of picoliter droplets and cells. Proc. Natl.\nAcad. Sci. U. S. A. 114, 8728 \u20138733",
+                    "size": 0,
+                    "metadata": {
+                        "source": "/tmp/Straathof_etal_2019.pdf__8rzfz7tj",
+                        "page": 8
+                    },
+                    "chunk_id": "d5f380e8-94d0-4049-b097-9fa3bcea2604",
+                    "document_id": null,
+                    "page_content_hash": "cfb2f36d717f52642e399b00f435fb90"
+                }
+            ]
+        }
+    }
+}

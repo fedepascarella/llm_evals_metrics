@@ -1,0 +1,4 @@
+Info Type,Explanation
+System Prompts:,"The system prompts describe the agent's ability to perform basic arithmetic operations such as addition, subtraction, and division. This information was used to generate questions about specific arithmetic operations (Questions 1-3)."
+Test Cases:,"The test cases focus on verifying the calculator's ability to perform specific operations like sum, difference, and division. This information was used to create questions that ask for verification of these functionalities (Questions 4-6)."
+Data Chunks:,"The data chunks discuss the importance of readability in programming, different factors affecting readability, and various software development methodologies. This information was used to generate questions that relate the readability and maintainability of code to the functionality of a calculator program (Questions 9-10)."

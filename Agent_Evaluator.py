@@ -1,6 +1,8 @@
 import os
 import pandas as pd
 import json
+import ast
+import re
 from datetime import datetime
 from dotenv import load_dotenv
 from langchain_openai import AzureChatOpenAI
@@ -68,14 +70,14 @@ azure_openai = AzureOpenAI(model=custom_model)
 dataset = EvaluationDataset()
 dataset.add_test_cases_from_csv_file(
     # file_path is the absolute path to you .csv file
-    file_path="mock_dataset.csv",
-    input_col_name="input",
+    file_path="QA Tests - Tasks # _ Kairo Retriever Agent - Sheet1 (1).csv",
+    input_col_name="query",
     actual_output_col_name="actual_output",
     expected_output_col_name="expected_output",
     context_col_name="context",
     context_col_delimiter=",",
     retrieval_context_col_name="retrieval_context",
-    retrieval_context_col_delimiter=";"
+    retrieval_context_col_delimiter=","
 )
 
 # timestamp
@@ -84,7 +86,7 @@ date = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
 # Define your metric functions
 
 
-def g_eval(data):
+def g_eval():
 
     correctness_metric = GEval(
         name="Correctness",
@@ -96,7 +98,7 @@ def g_eval(data):
         ],
         evaluation_params=[LLMTestCaseParams.INPUT,
                            LLMTestCaseParams.ACTUAL_OUTPUT],
-        threshold=0.6,
+        threshold=0.8,
         model=azure_openai,
         verbose_mode=True
     )
@@ -138,7 +140,7 @@ def faithfulness():
 def answer_relevancy():
 
     answer_relevancy_metric = AnswerRelevancyMetric(
-        threshold=0.7,
+        threshold=0.8,
         model=azure_openai,
         include_reason=True,
         verbose_mode=True
@@ -150,7 +152,7 @@ def answer_relevancy():
 def contextual_relevancy():
 
     contextual_relevancy_metric = ContextualRelevancyMetric(
-        threshold=0.7,
+        threshold=0.8,
         model=azure_openai,
         include_reason=True,
         verbose_mode=True
@@ -165,7 +167,7 @@ def contextual_relevancy():
 def contextual_precision():
 
     contextual_precision_metric = ContextualPrecisionMetric(
-        threshold=0.7,
+        threshold=0.8,
         model=azure_openai,
         include_reason=True,
         verbose_mode=True
@@ -179,7 +181,7 @@ def contextual_precision():
 def contextual_recall():
 
     contextual_recall_metric = ContextualRecallMetric(
-        threshold=0.7,
+        threshold=0.8,
         model=azure_openai,
         include_reason=True,
         verbose_mode=True
@@ -301,5 +303,114 @@ if __name__ == "__main__":
 
     print("Results saved to 'results.csv'.")
 
-    # Step 2: Read the CSV file into a DataFrame
-    df = pd.read_csv('results.csv')
+
+######## DATAFRAME REFACTORING ############
+
+# Define a function to parse the TestResult string
+
+def parse_metric_metadata(metadata_str):
+    # Split the metadata string into individual metric details
+    metadata_items = metadata_str.split('),')
+    parsed_metadata = []
+
+    for item in metadata_items:
+        # Extract key-value pairs from each metric item
+        metric_details = re.findall(r"(\w+)=('[^']*'|[^,]*)", item)
+        metric_dict = {k: v.strip("'") for k, v in metric_details}
+        parsed_metadata.append(metric_dict)
+
+    return parsed_metadata
+
+
+def parse_test_result_extended(test_result_str):
+    # Extract success value
+    success_match = re.search(r'success=(True|False)', test_result_str)
+    success = success_match.group(1) == 'True' if success_match else None
+
+    # Extract metrics_metadata
+    metrics_metadata_match = re.search(
+        r'metrics_metadata=\[(.*)\]', test_result_str)
+    metrics_metadata = metrics_metadata_match.group(
+        1) if metrics_metadata_match else None
+
+    # Parse metrics_metadata details
+    parsed_metrics_metadata = parse_metric_metadata(
+        metrics_metadata) if metrics_metadata else []
+
+    # Extract other components (input, actual_output, expected_output, etc.)
+    input_match = re.search(r"input='(.*?)'", test_result_str)
+    input_text = input_match.group(1) if input_match else None
+
+    actual_output_match = re.search(r"actual_output='(.*?)'", test_result_str)
+    actual_output = actual_output_match.group(
+        1) if actual_output_match else None
+
+    expected_output_match = re.search(
+        r"expected_output='(.*?)'", test_result_str)
+    expected_output = expected_output_match.group(
+        1) if expected_output_match else None
+
+    return {
+        'success': success,
+        'metrics_metadata': parsed_metrics_metadata,
+        'input': input_text,
+        'actual_output': actual_output,
+        'expected_output': expected_output
+    }
+
+# Parse all test result items with extended parsing
+
+
+def parse_all_test_results_extended(df):
+    parsed_data = []
+    for idx, row in df.iterrows():
+        for col in df.columns:
+            if col.startswith('item_'):
+                parsed_result = parse_test_result_extended(row[col])
+                parsed_data.append({
+                    'timestamp': row['timestamp'],
+                    'metric': row['metric'],
+                    'item': col,
+                    **parsed_result
+                })
+    return pd.DataFrame(parsed_data)
+
+# Flatten the metrics_metadata into individual columns
+
+
+def flatten_metrics_metadata(df):
+    flattened_data = []
+    for idx, row in df.iterrows():
+        base_data = {
+            'timestamp': row['timestamp'],
+            'metric': row['metric'],
+            'item': row['item'],
+            'success': row['success'],
+            'input': row['input'],
+            'actual_output': row['actual_output'],
+            'expected_output': row['expected_output']
+        }
+        for metric in row['metrics_metadata']:
+            flattened_row = {**base_data, **metric}
+            flattened_data.append(flattened_row)
+    return pd.DataFrame(flattened_data)
+
+
+# Load the CSV file
+results_file_path = 'results.csv'
+results_data = pd.read_csv(results_file_path)
+
+# Parse the dataframe with extended parsing
+parsed_df_extended = parse_all_test_results_extended(results_data)
+
+# Flatten the extended parsed dataframe
+flattened_df = flatten_metrics_metadata(parsed_df_extended)
+
+# Display the final flattened dataframe
+flattened_df.head()
+
+# Export the flattened dataframe to a new CSV file
+output_file_path = 'flattened_results.csv'
+flattened_df.to_csv(output_file_path, index=False)
+
+print("Results saved to 'flattened_results.csv'.")

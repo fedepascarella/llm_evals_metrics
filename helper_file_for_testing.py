@@ -365,3 +365,60 @@ print(f"DATASET: {dataset_llm_result}")
 # # Save the updated configuration if needed
 # with open('updated_config.json', 'w') as file:
 #     json.dump(config_data, file, indent=4)
+
+
+# The LLM response as a string
+llm_response = dataset_llm_result
+
+# Split the response into sections
+sections = llm_response.split("### Explanation of Information Used:")
+questions_section = sections[0].strip()
+explanation_section = sections[1].strip()
+
+# Extract the questions and categories
+lines = questions_section.split('\n')
+questions_data = []
+category = None
+
+for line in lines:
+    line = line.strip()
+    if line.startswith('1. **') or line.startswith('2. **') or line.startswith('3. **') or line.startswith('4. **'):
+        category = line.split('**')[1].strip()
+    elif line.startswith('-'):
+        question = line[2:].strip()
+        questions_data.append({'Category': category, 'Question': question})
+
+# Create DataFrame
+questions_df = pd.DataFrame(questions_data)
+
+# Extract the explanations
+explanations = explanation_section.split('\n')
+explanations_data = []
+info_type = None
+
+for line in explanations:
+    line = line.strip()
+    if line.startswith('1. **') or line.startswith('2. **') or line.startswith('3. **'):
+        info_type = line.split('**')[1].strip()
+    elif line.startswith('-'):
+        explanation = line[2:].strip()
+        explanations_data.append(
+            {'Info Type': info_type, 'Explanation': explanation})
+
+# Create DataFrame
+explanations_df = pd.DataFrame(explanations_data)
+
+# Display the DataFrames
+print("Questions DataFrame:")
+print(questions_df)
+
+print("\nExplanations DataFrame:")
+print(explanations_df)
+
+# Export the Questions DataFrame to a CSV file
+questions_df.to_csv('questions.csv', index=False)
+
+# Export the Explanations DataFrame to a CSV file
+explanations_df.to_csv('explanations.csv', index=False)
+
+print("DataFrames have been exported to CSV files.")

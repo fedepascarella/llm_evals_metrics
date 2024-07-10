@@ -65,11 +65,11 @@
         }
     },
     "EVALUATORS": {
-        "g-eval": false,
+        "g-eval": true,
         "summarization": false,
-        "faithfulness": true,
+        "faithfulness": false,
         "answer_relevancy": false,
-        "contextual_relevancy": true,
+        "contextual_relevancy": false,
         "contextual_precision": false,
         "contextual_recall": false,
         "hallucination": false,

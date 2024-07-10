@@ -1,0 +1,11 @@
+Category,Question
+Arithmetic Operations:,What is the sum of 15 and 27?
+Arithmetic Operations:,What is the difference between 45 and 19?
+Arithmetic Operations:,What is the quotient when 84 is divided by 7?
+Test Case Verification:,Can you verify the calculator's ability to correctly calculate the sum of 23 and 34?
+Test Case Verification:,Can you verify the calculator's ability to correctly calculate the difference between 58 and 22?
+Test Case Verification:,Can you verify the calculator's ability to correctly calculate the quotient of 144 divided by 12?
+Functionality Testing:,How does the calculator handle the sum calculation of 100 and 250?
+Functionality Testing:,How does the calculator handle the division of 81 by 9?
+Data Chunk Integration:,How does the readability of code affect the efficiency of arithmetic operations in a calculator program?
+Data Chunk Integration:,Can you explain how different indent styles and naming conventions might impact the readability and maintainability of a calculator's source code?
