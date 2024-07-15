@@ -77,6 +77,48 @@
                     ]
                 }
             ]
+        },
+        {
+            "test_cases": [
+                {
+                    "test_case_id": "TC001",
+                    "creation_date": "12-07-2024 16:38:28",
+                    "description": "Verify the CSV file upload functionality",
+                    "preconditions": [
+                        "User is logged into the CSV document analyzer app",
+                        "User is on the data upload page"
+                    ],
+                    "steps": [
+                        "Click on the 'Upload File' button",
+                        "Select a valid CSV file from the local system",
+                        "Click on the 'Open' button to upload the selected file"
+                    ],
+                    "expected_results": [
+                        "The CSV file is uploaded successfully",
+                        "The user sees a confirmation message indicating a successful upload",
+                        "The uploaded CSV file content is displayed on the screen for analysis"
+                    ]
+                },
+                {
+                    "test_case_id": "TC002",
+                    "creation_date": "12-07-2024 16:38:28",
+                    "description": "Verify data analysis functionality for uploaded CSV file",
+                    "preconditions": [
+                        "User is logged into the CSV document analyzer app",
+                        "A valid CSV file has been successfully uploaded"
+                    ],
+                    "steps": [
+                        "Navigate to the 'Data Analysis' tab",
+                        "Select the type of analysis to be performed (e.g., summary statistics, trend analysis)",
+                        "Click on the 'Analyze' button"
+                    ],
+                    "expected_results": [
+                        "The app performs the selected analysis on the uploaded CSV file",
+                        "The results of the analysis are displayed on the screen",
+                        "The user can download or export the analysis results if needed"
+                    ]
+                }
+            ]
         }
     ]
 }

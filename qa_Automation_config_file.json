@@ -29,8 +29,8 @@
             "calculator": false,
             "devops_manager": false
         },
-        "description": "The app is a calculator",
-        "use_case": "The customer wants to calculate sums, differences and divisions"
+        "description": "The app is a CSV document analyzer",
+        "use_case": "The customer wants to analyze data from its own company"
     },
     "TEST_CASE_AGENT": {
         "test_cases_quantity": 2,
@@ -65,11 +65,11 @@
         }
     },
     "EVALUATORS": {
-        "g-eval": true,
+        "g-eval": false,
         "summarization": false,
         "faithfulness": false,
         "answer_relevancy": false,
-        "contextual_relevancy": false,
+        "contextual_relevancy": true,
         "contextual_precision": false,
         "contextual_recall": false,
         "hallucination": false,

@@ -326,13 +326,35 @@ def create_chain_of_thought(system_prompts, test_case_descriptions, result_df, a
             cot_prompt += "No data chunks available.\n"
 
     if prompt_engineering_technique_zero_shot:
-        cot_prompt += "\n4. Apply zero-shot prompt engineering technique to generate questions, if data chunks are present it is compulsary to generate questions based on them.\n"
+        cot_prompt += "\n4. Apply zero-shot prompt engineering technique to generate questions, if data chunks are present it is compulsory to generate questions based on them.\n"
     else:
-        cot_prompt += "\n4. Based on the system prompts, test case descriptions, and data chunks (if any). If data chunks are present it is compulsary to generate questions based on them.\n"
+        cot_prompt += "\n4. Based on the system prompts, test case descriptions, and data chunks (if any). If data chunks are present it is compulsory to generate questions based on them.\n"
 
     cot_prompt += f"Please generate a set of {dataset_number_questions} questions that could be used to test or clarify the system's functionality. Ensure the questions are relevant and cover various aspects of the described operations, test cases, and data chunks.\n"
 
-    cot_prompt += "\nNow, generate the questions and explain which provided information did you use to generate the questions."
+    cot_prompt += """
+Please use the following format with these exact section titles:
+
+### Questions:
+[Your questions here]
+
+### Explanation of Information Used:
+[Your explanations here]
+
+### Questions:
+1. **Arithmetic Calculation: Sum**
+- Can you calculate the sum of 15 and 20?
+...
+10. **Basic Programming Instructions**
+- What are the basic instructions that appear in almost every programming language according to Allen Downey?
+
+### Explanation of Information Used:
+- **Questions 1 to 3**: Derived from the system prompts related to arithmetic calculations (addition, subtraction, division).
+- **Questions 4 to 7**: Inspired by the system prompts and test cases focusing on CSV file upload and data analysis functionalities.
+- **Question 8**: Based on information from Data Chunk 1 that discusses debugging tools.
+- **Question 9**: Derived from Data Chunk 2's explanation of low-level vs high-level programming languages.
+- **Question 10**: Inspired by Data Chunk 2, specifically Allen Downey's explanation of basic instructions common to most programming languages.
+"""
 
     return cot_prompt
 
@@ -343,7 +365,7 @@ cot_prompt = create_chain_of_thought(
 print(cot_prompt)
 
 dataset_generator_llm = AzureChatOpenAI(deployment_name="gpt4-o", verbose=True,
-                                        temperature=0)
+                                        temperature=0.8)
 
 dataset_generator_llm_input = "Execute the system prompt"
 
@@ -356,7 +378,7 @@ dataset_result_chain = dataset_system_prompt | dataset_generator_llm | output_pa
 dataset_llm_result = dataset_result_chain.invoke(
     {"input": dataset_generator_llm_input})
 
-print(f"DATASET: {dataset_llm_result}")
+print(f"DATASET: \n{dataset_llm_result}")
 
 
 # # Print the updated configuration to verify
@@ -367,58 +389,76 @@ print(f"DATASET: {dataset_llm_result}")
 #     json.dump(config_data, file, indent=4)
 
 
-# The LLM response as a string
+# The LLM response as a string (replace with actual data for testing)
 llm_response = dataset_llm_result
 
-# Split the response into sections
+# Split the response into sections using the correct delimiter
 sections = llm_response.split("### Explanation of Information Used:")
-questions_section = sections[0].strip()
-explanation_section = sections[1].strip()
 
-# Extract the questions and categories
-lines = questions_section.split('\n')
-questions_data = []
-category = None
+# Debugging: Print the sections list to understand its contents
+print("Sections list:", sections)
 
-for line in lines:
-    line = line.strip()
-    if line.startswith('1. **') or line.startswith('2. **') or line.startswith('3. **') or line.startswith('4. **'):
-        category = line.split('**')[1].strip()
-    elif line.startswith('-'):
-        question = line[2:].strip()
-        questions_data.append({'Category': category, 'Question': question})
+# Check if the sections list has at least two elements
+if len(sections) > 1:
+    questions_section = sections[0].strip()
+    explanation_section = sections[1].strip()
 
-# Create DataFrame
-questions_df = pd.DataFrame(questions_data)
+    # Extract the questions and categories
+    lines = questions_section.split('\n')
+    questions_data = []
+    category = None
 
-# Extract the explanations
-explanations = explanation_section.split('\n')
-explanations_data = []
-info_type = None
+    print("Questions Section Lines:")
+    print(lines)
 
-for line in explanations:
-    line = line.strip()
-    if line.startswith('1. **') or line.startswith('2. **') or line.startswith('3. **'):
-        info_type = line.split('**')[1].strip()
-    elif line.startswith('-'):
-        explanation = line[2:].strip()
-        explanations_data.append(
-            {'Info Type': info_type, 'Explanation': explanation})
+    for line in lines:
+        line = line.strip()
+        if line.startswith('1. **') or line.startswith('2. **') or line.startswith('3. **') or line.startswith('4. **'):
+            category = line.split('**')[1].strip()
+        elif line.startswith('-'):
+            question = line[2:].strip()
+            questions_data.append({'Category': category, 'Question': question})
 
-# Create DataFrame
-explanations_df = pd.DataFrame(explanations_data)
+    # Create DataFrame
+    questions_df = pd.DataFrame(questions_data)
 
-# Display the DataFrames
-print("Questions DataFrame:")
-print(questions_df)
+    # Add the new column "Data Type" and set it to "Synthetic"
+    questions_df['Data Type'] = 'Synthetic'
 
-print("\nExplanations DataFrame:")
-print(explanations_df)
+    # Extract the explanations
+    explanations = explanation_section.split('\n')
+    explanations_data = []
+    info_type = None
 
-# Export the Questions DataFrame to a CSV file
-questions_df.to_csv('questions.csv', index=False)
+    print("Explanations Section Lines:")
+    print(explanations)
 
-# Export the Explanations DataFrame to a CSV file
-explanations_df.to_csv('explanations.csv', index=False)
+    for line in explanations:
+        line = line.strip()
+        if line.startswith('1. **') or line.startswith('2. **') or line.startswith('3. **'):
+            info_type = line.split('**')[1].strip()
+        elif line.startswith('-'):
+            explanation = line[2:].strip()
+            explanations_data.append(
+                {'Info Type': info_type, 'Explanation': explanation})
 
-print("DataFrames have been exported to CSV files.")
+    # Create DataFrame
+    explanations_df = pd.DataFrame(explanations_data)
+
+    # Display the DataFrames
+    print("Questions DataFrame:")
+    print(questions_df)
+
+    print("\nExplanations DataFrame:")
+    print(explanations_df)
+
+    # Export the Questions DataFrame to a CSV file
+    questions_df.to_csv('questions.csv', index=False)
+
+    # Export the Explanations DataFrame to a CSV file
+    explanations_df.to_csv('explanations.csv', index=False)
+
+    print("DataFrames have been exported to CSV files.")
+else:
+    print("Error: The LLM response does not contain the expected delimiter '### Explanation:'.")
+    print("Sections list:", sections)

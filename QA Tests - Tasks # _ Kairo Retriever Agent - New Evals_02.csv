@@ -1,0 +1,28 @@
+query,actual_output,expected_output,retrieval_context
+What is the main advantage of using anodic electro-fermentation over other fermentation methods for the production of L-lysine in Corynebacterium glutamicum?,"The main advantage of using anodic electro-fermentation over other fermentation methods for the production of L-lysine in Corynebacterium glutamicum is that it allows for anaerobic growth and a stable anaerobic production of L-lysine while also improving the cellular energy supply. This process provides an inexhaustible electron acceptor for the microbe through the use of a mediator with a positive redox potential, which is continuously re-oxidized at the anode. This approach supports C. glutamicum in stabilizing its redox and energy state, which is not typically observed in other studies under reductive conditions.","Under such oxidizing conditions we achieved L-lysine titers of 2.9 mM at rates of 0.2 mmol/L/hr. That titer is comparable to recently reported L-lysine concentrations achieved by anaerobic production under reductive conditions (cathodic electro-fermentation). However unlike other studies, our oxidative conditions allowed anaerobic cell growth, indicating an improved cellular energy supply during anodic electro-fermentation. In that light, we propose anodic electro-fermentation as the right choice to support C. glutamicum stabilizing its redox and energy state and empower a stable anaerobic production of L-lysine.","glutamicum lysC further accumulated L-lysine. Under such oxidizing conditions we
+achieved L-lysine titers of 2.9 mM at rates of 0.2 mmol/L/hr. That titer is comparable to
+recently reported L-lysine concentrations achieved by anaerobic production under
+reductive conditions (cathodic electro-fermentation). However unlike other studies,
+our oxidative conditions allowed anaerobic cell growth, indicating an improved cellular
+energy supply during anodic electro-fermentation. In that light, we propose anodic
+electro-fermentation as the right choice to support C. glutamicum stabilizing its redox
+and energy state and empower a stable anaerobic production of L-lysine.
+KEYWORDS
+anaerobic growth, anodic electro fermentation, Corynebacterium glutamicum , lysine
+1|INTRODUCTION
+A key sector of industrial biotechnology today is the amino acid market ; 
+As world's leading feed amino acid, used as additive in animal nutrition,L-lysine has an annual production of 2.2 million tons with an estimated metabolism in Corynebacterium glutamicum ATCC13032 and their
+significance in response to osmotic stress. Molecular Microbiology ,49(4),
+1119 –1134.
+Xafenias, N., Kmezik, C., & Mapelli, V. (2017). Enhancement of anaerobic
+lysine production in Corynebacterium glutamicum electrofermentations.
+Bioelectrochemistry ,117,4 0–47.
+Zhou, M., Chen, J., Freguia, S., Rabaey, K., & Keller, J. R. (2013). Carbon and
+electron fluxes during the electricity driven 1, 3-propanediol biosyn-thesis from glycerol. Environmental Science & Technology ,47(19),
+11199 –11205.
+SUPPORTING INFORMATION
+Additional Supporting Information may be found online in the
+supporting information tab for this article.
+How to cite this article: Vassilev I, Gießelmann G,
+Schwechheimer SK, Wittmann C, Virdis B, Krömer JO.Anodic electro-fermentation: Anaerobic production ofL-Lysine by recombinant Corynebacterium glutamicum .
+"

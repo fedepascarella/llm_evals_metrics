@@ -45,6 +45,25 @@
                 "- Version 2 emphasizes technical clarity, clearly stating the functions of addition, subtraction, and division.",
                 "- Version 3 balances both aspects, providing a clear and engaging description of the agent's capabilities."
             ]
+        },
+        {
+            "creation_date": "10-07-2023 10:45:00",
+            "versions": [
+                {
+                    "content": "I am an agent that assists with analyzing data from your company's CSV documents. Please upload your CSV file, and I will help you extract insights, generate reports, and visualize key metrics to support your business decisions."
+                },
+                {
+                    "content": "I am an agent that specializes in analyzing CSV data for your company. Provide your CSV file, and I will process the data to identify trends, generate summaries, and create visual representations to help you understand your business performance."
+                },
+                {
+                    "content": "I am an agent that helps you analyze your company's CSV data. Upload your CSV document, and I will assist in breaking down the data, generating detailed reports, and offering visual insights to enhance your decision-making process."
+                }
+            ],
+            "selection_guidance": [
+                "- Version 1 focuses on extracting insights and generating reports to support business decisions.",
+                "- Version 2 emphasizes identifying trends and creating visual representations for business performance.",
+                "- Version 3 balances data breakdown, report generation, and visual insights for enhanced decision-making."
+            ]
         }
     ]
 }
