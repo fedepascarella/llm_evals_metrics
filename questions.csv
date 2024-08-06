@@ -1,11 +1,1 @@
-Category,Question,Data Type
-Arithmetic Calculation: Sum,Can you calculate the sum of 15 and 20?,Synthetic
-Arithmetic Calculation: Difference,What is the difference between 50 and 23?,Synthetic
-Arithmetic Calculation: Division,How would you divide 144 by 12?,Synthetic
-CSV File Upload: Functionality,Can you guide me through the process of uploading a CSV file to the system?,Synthetic
-CSV File Upload: Functionality,How do you generate a summary report from the uploaded CSV data?,Synthetic
-CSV File Upload: Functionality,What methods do you use to identify trends in CSV data?,Synthetic
-CSV File Upload: Functionality,Can you create visual representations of key metrics from a CSV file?,Synthetic
-CSV File Upload: Functionality,"How do you handle errors in arithmetic operations, such as division by zero?",Synthetic
-CSV File Upload: Functionality,How do you ensure accuracy in your arithmetic calculations?,Synthetic
-CSV File Upload: Functionality,Can you explain the types of arithmetic operations you can perform and provide examples for each?,Synthetic
+Data Type

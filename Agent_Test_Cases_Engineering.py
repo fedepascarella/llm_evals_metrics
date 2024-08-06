@@ -2,18 +2,20 @@ import os
 import json
 from datetime import datetime
 from dotenv import load_dotenv
-from langchain.agents import tool
-from langchain_openai import AzureChatOpenAI, AzureOpenAI
+from langchain_openai import AzureChatOpenAI
 from langchain.schema import SystemMessage, HumanMessage, StrOutputParser
 from langchain.prompts import ChatPromptTemplate
 
 # Load environment variables from a .env file
 load_dotenv()
 
-# Fetch environment variablesq
+# Fetch environment variables
 azure_OpenAI_Api_Key = os.getenv('AZURE_OPENAI_API_KEY')
 azure_Endpoint = os.getenv('AZURE_OPENAI_ENDPOINT')
 azure_OpenAI_Version = os.getenv('OPENAI_API_VERSION')
+
+if not all([azure_OpenAI_Api_Key, azure_Endpoint, azure_OpenAI_Version]):
+    raise ValueError("One or more environment variables are missing.")
 
 # Step 1: Read input data from JSON file
 with open('qa_Automation_config_file.json', 'r') as file:
@@ -28,7 +30,7 @@ app_Description = llm_App["description"]
 use_Case = llm_App["use_case"]
 
 TEST_CASE_AGENT_SYSTEM_PROMPT = f"""
-Always follow this instructions. You are an LLM agent designed to generate this amount {quantity_Test_Cases} of QA test cases based on this {app_Description} and this {use_Case}. Follow these steps:
+Always follow these instructions. You are an LLM agent designed to generate {quantity_Test_Cases} QA test cases based on this description: {app_Description} and this use case: {use_Case}. Follow these steps:
 
 1. For each test case, generate a detailed test case, including:
    - Test Case ID
@@ -37,6 +39,7 @@ Always follow this instructions. You are an LLM agent designed to generate this 
    - Preconditions
    - Steps
    - Expected Results
+   - Test_Type
 
 Present the {quantity_Test_Cases} output(s) in JSON format following this structure:
     {{
@@ -47,7 +50,8 @@ Present the {quantity_Test_Cases} output(s) in JSON format following this struct
         "description": "Verify user login functionality",
         "preconditions": ["User is registered", "User is on the login page"],
         "steps": ["Enter valid username", "Enter valid password", "Click on the login button"],
-        "expected_results": ["User is redirected to the dashboard"]
+        "expected_results": ["User is redirected to the dashboard"],
+        "test_type": "Functional"
         }},
         {{
         "test_case_id": "TC002",
@@ -55,14 +59,14 @@ Present the {quantity_Test_Cases} output(s) in JSON format following this struct
         "description": "Verify user logout functionality",
         "preconditions": ["User is logged in"],
         "steps": ["Click on the logout button"],
-        "expected_results": ["User is redirected to the login page"]
+        "expected_results": ["User is redirected to the login page"],
+        "test_type": "Functional"
         }}
     ]
     }}
-
 """
 
-enabled_tests_prompt = "Generate test cases for the following types of testing:"
+enabled_tests_prompt = "Generate test cases for the following types of testing:\n"
 
 if test_types['functional']:
     enabled_tests_prompt += """
@@ -105,12 +109,11 @@ full_prompt = TEST_CASE_AGENT_SYSTEM_PROMPT + enabled_tests_prompt
 print(full_prompt)
 
 # Initialize the AzureOpenAI LLM
-llm = AzureChatOpenAI(deployment_name="gpt4-o", verbose=True,
-                      temperature=0.9)
+llm = AzureChatOpenAI(deployment_name="gpt4-o", verbose=True, temperature=0.9)
 
 prompt = ChatPromptTemplate.from_messages([
     SystemMessage(content=TEST_CASE_AGENT_SYSTEM_PROMPT),
-    HumanMessage(content="{full_prompt}")
+    HumanMessage(content=full_prompt)
 ])
 
 output_parser = StrOutputParser()
@@ -118,14 +121,25 @@ output_parser = StrOutputParser()
 # Create and run the chain
 chain = prompt | llm | output_parser
 
-result = chain.invoke({"input": full_prompt})
-print(result)
-
-# Ensure the result is in the correct format
+# Debugging: Check raw response from the LLM
 try:
+    result = chain.invoke({"input": full_prompt})
+    print("Raw LLM response:", result)
+    
+    # Strip backticks and parse JSON
+    if result.startswith("```json") and result.endswith("```"):
+        result = result[7:-3].strip()
+    elif result.startswith("```") and result.endswith("```"):
+        result = result[3:-3].strip()
+    
+    print("Stripped LLM response:", result)
+    
     output_data = json.loads(result)
 except json.JSONDecodeError as e:
     print(f"Failed to parse JSON from result: {e}")
+    output_data = {"test_cases": []}
+except Exception as e:
+    print(f"An error occurred: {e}")
     output_data = {"test_cases": []}
 
 # Load existing results from JSON file if it exists

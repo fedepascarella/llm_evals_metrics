@@ -4,119 +4,44 @@
             "test_cases": [
                 {
                     "test_case_id": "TC001",
-                    "creation_date": "10-25-2023 14:30:00",
-                    "description": "Verify the calculator's ability to correctly calculate the sum of two numbers",
+                    "creation_date": "10-10-2023 14:30:00",
+                    "description": "Verify ease of navigation through the LLM app interface",
                     "preconditions": [
-                        "The calculator app is open"
+                        "User has access to the LLM app",
+                        "User is on the home screen"
                     ],
                     "steps": [
-                        "Enter the number '15' using the calculator keypad",
-                        "Press the '+' button",
-                        "Enter the number '10' using the calculator keypad",
-                        "Press the '=' button"
+                        "Open the LLM app",
+                        "Navigate to different sections: Dashboard, Queries, Settings, Support",
+                        "Attempt to return to the home screen from each section"
                     ],
                     "expected_results": [
-                        "The display shows '25'"
-                    ]
+                        "User can easily navigate to all sections",
+                        "Navigational buttons and menus are clearly labeled and intuitive",
+                        "User can return to the home screen without any confusion"
+                    ],
+                    "test_type": "Usability"
                 },
                 {
                     "test_case_id": "TC002",
-                    "creation_date": "10-25-2023 14:35:00",
-                    "description": "Verify the calculator's ability to correctly calculate the difference between two numbers",
+                    "creation_date": "10-10-2023 14:30:00",
+                    "description": "Verify the user-interaction flow when submitting a query",
                     "preconditions": [
-                        "The calculator app is open"
+                        "User has access to the LLM app",
+                        "User is on the query submission page"
                     ],
                     "steps": [
-                        "Enter the number '20' using the calculator keypad",
-                        "Press the '-' button",
-                        "Enter the number '8' using the calculator keypad",
-                        "Press the '=' button"
+                        "Enter a query into the input field",
+                        "Click on the 'Submit' button",
+                        "Observe the response and how it is presented",
+                        "Test error handling by submitting an incomplete query"
                     ],
                     "expected_results": [
-                        "The display shows '12'"
-                    ]
-                }
-            ]
-        },
-        {
-            "test_cases": [
-                {
-                    "test_case_id": "TC001",
-                    "creation_date": "10-04-2023 14:30:00",
-                    "description": "Verify sum calculation functionality",
-                    "preconditions": [
-                        "Calculator app is installed",
-                        "Calculator app is open"
+                        "Query input field accepts text and 'Submit' button is clearly visible",
+                        "Response is provided in a clear and understandable format",
+                        "Error messages are informative and guide the user to correct their input"
                     ],
-                    "steps": [
-                        "Enter 5",
-                        "Press the '+' button",
-                        "Enter 3",
-                        "Press the '=' button"
-                    ],
-                    "expected_results": [
-                        "The display shows 8"
-                    ]
-                },
-                {
-                    "test_case_id": "TC002",
-                    "creation_date": "10-04-2023 14:32:00",
-                    "description": "Verify division calculation functionality",
-                    "preconditions": [
-                        "Calculator app is installed",
-                        "Calculator app is open"
-                    ],
-                    "steps": [
-                        "Enter 10",
-                        "Press the '/' button",
-                        "Enter 2",
-                        "Press the '=' button"
-                    ],
-                    "expected_results": [
-                        "The display shows 5"
-                    ]
-                }
-            ]
-        },
-        {
-            "test_cases": [
-                {
-                    "test_case_id": "TC001",
-                    "creation_date": "12-07-2024 16:38:28",
-                    "description": "Verify the CSV file upload functionality",
-                    "preconditions": [
-                        "User is logged into the CSV document analyzer app",
-                        "User is on the data upload page"
-                    ],
-                    "steps": [
-                        "Click on the 'Upload File' button",
-                        "Select a valid CSV file from the local system",
-                        "Click on the 'Open' button to upload the selected file"
-                    ],
-                    "expected_results": [
-                        "The CSV file is uploaded successfully",
-                        "The user sees a confirmation message indicating a successful upload",
-                        "The uploaded CSV file content is displayed on the screen for analysis"
-                    ]
-                },
-                {
-                    "test_case_id": "TC002",
-                    "creation_date": "12-07-2024 16:38:28",
-                    "description": "Verify data analysis functionality for uploaded CSV file",
-                    "preconditions": [
-                        "User is logged into the CSV document analyzer app",
-                        "A valid CSV file has been successfully uploaded"
-                    ],
-                    "steps": [
-                        "Navigate to the 'Data Analysis' tab",
-                        "Select the type of analysis to be performed (e.g., summary statistics, trend analysis)",
-                        "Click on the 'Analyze' button"
-                    ],
-                    "expected_results": [
-                        "The app performs the selected analysis on the uploaded CSV file",
-                        "The results of the analysis are displayed on the screen",
-                        "The user can download or export the analysis results if needed"
-                    ]
+                    "test_type": "Usability"
                 }
             ]
         }

@@ -1,50 +1,51 @@
-21. Mitchell, Robert (May 21, 2012). "The Cobol Brain Drain" (http://www.computerworld.com/arti
-cle/2504568/data-center/the-cobol-brain-drain.html). Computer World. Archived (https://web.
-archive.org/web/20190212185631/https://www.computerworld.com/article/2504568/data-cen
-ter/the-cobol-brain-drain.html) from the original on February 12, 2019. Retrieved May 9,
-2015.
-22. "Photograph courtesy Naval Surface Warfare Center, Dahlgren, Virginia, from National
-Geographic Sept. 1947" (https://www.nationalgeographic.org/thisday/sep9/worlds-first-comp
-uter-bug). July 15, 2020. Archived (https://web.archive.org/web/20201113163443/https://ww
-w.nationalgeographic.org/thisday/sep9/worlds-first-computer-bug/) from the original on
-November 13, 2020. Retrieved November 10, 2020.
-23. Prat, Chantel S.; Madhyastha, Tara M.; Mottarella, Malayka J.; Kuo, Chu-Hsuan (March 2,
-2020). "Relating Natural Language Aptitude to Individual Differences in Learning
-Programming Languages" (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7051953).
-Scientific Reports. 10 (1): 3817. Bibcode:2020NatSR..10.3817P (https://ui.adsabs.harvard.e
-du/abs/2020NatSR..10.3817P). doi:10.1038/s41598-020-60661-8 (https://doi.org/10.1038%2
-Fs41598-020-60661-8). ISSN 2045-2322 (https://www.worldcat.org/issn/2045-2322).
-PMC 7051953 (https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7051953). PMID 32123206 (h
-ttps://pubmed.ncbi.nlm.nih.gov/32123206).
-24. "To the brain, reading computer code is not the same as reading language" (https://news.mit.
-edu/2020/brain-reading-computer-code-1215). MIT News | Massachusetts Institute of
-Technology. December 15, 2020. Retrieved July 29, 2023.
-Ceruzzi, Paul E. (1998). History of Computing (https://archive.org/details/historyofmodernc00
-ceru). Cambridge, Massachusetts: MIT Press. ISBN 9780262032551 – via EBSCOhost.
-Evans, Claire L. (2018). Broad Band: The Untold Story of the Women Who Made the Internet
-(https://books.google.com/books?id=C8ouDwAAQBAJ&q=9780735211759&pg=PP1). New
-York: Portfolio/Penguin. ISBN 9780735211759.
-Gürer, Denise (1995). "Pioneering Women in Computer Science" (https://courses.cs.washing
-ton.edu/courses/csep590/06au/readings/p175-gurer.pdf) (PDF). Communications of the
-ACM. 38 (1): 45–54. doi:10.1145/204865.204875 (https://doi.org/10.1145%2F204865.20487
-5). S2CID 6626310 (https://api.semanticscholar.org/CorpusID:6626310). Archived (https://gh
-ostarchive.org/archive/20221009/https://courses.cs.washington.edu/courses/csep590/06au/r
-eadings/p175-gurer.pdf) (PDF) from the original on October 9, 2022.
-Smith, Erika E. (2013). "Recognizing a Collective Inheritance through the History of Women
-in Computing" (http://search.ebscohost.com/login.aspx?direct=true&db=lfh&AN=90670848&
-site=ehost-live). CLCWeb: Comparative Literature & Culture: A WWWeb Journal. 15 (1): 1–9
-– via EBSCOhost.
-A.K. Hartmann, Practical Guide to Computer Simulations (https://web.archive.org/web/20090
-211113048/http://worldscibooks.com/physics/6988.html), Singapore: World Scientific (2009)
-A. Hunt, D. Thomas, and W. Cunningham, The Pragmatic Programmer. From Journeyman to
-Master, Amsterdam: Addison-Wesley Longman (1999)
-Brian W. Kernighan, The Practice of Programming, Pearson (1999)
-Weinberg, Gerald M., The Psychology of Computer Programming, New York: Van Nostrand
-Reinhold (1971)
-Edsger W. Dijkstra, A Discipline of Programming, Prentice-Hall (1976)Sources
-Further reading
+Source: SANTIAGO.docx, Page: 1
+Santiago Pineda
 
-Contoso Electronics 
-Plan and Benefit Packages
+Source: DAILY UPDATES.docx, Page: 50
+Remember that this is what we should be doing anyway, since it's part of our ways or working, but now there's a little extra incentive to do it well and do it together.
 
+Source: JAMIL.docx, Page: 29
+Terraform
+
+Source: FEDERICO.docx, Page: 22
+Non-Conforming Software lnvestigation: Delves into the causes behind non-conforming software and provide training or guidance to users for implementing solutions.
+
+Source: MARCO.docx, Page: 15
+Collaboration: Work with developers and other stakeholders to ensure seamless integration and delivery.
+
+Source: NEW FEATURE.docx, Page: 13
+h.   Assess security
+
+Source: MARIANA.docx, Page: 30
+Oversee the development and implementation of policies, procedures, and programs_
+
+Source: Work Norms.docx, Page: 25
+If you encounter any obstacles or are unclear about a task, promptly communicate this to your team or manager. We will not recognize time spent trying to figure something out for longer than reasonable.  
+
+Source: LUIS.docx, Page: 23
+Product Design
+
+Source: JUAN.docx, Page: 19
+Collaborate with cross-functional teams, including designers, engineers, and product managers, to ensure project requirements are met and align with business goals.
+
+Source: AI.docx, Page: 1
+Al Softwa re Development
+
+Source: TEAMS.docx, Page: 24
+Join or Create a Team: To join an existing team, click on the "Teams" tab on the left-hand sidebar, then select "Join or create a team."
+
+Source: ONE NOTE.docx, Page: 5
+OneNote
+
+Source: FAQ.docx, Page: 36
+At Kmeleon, we are all currently working as contractors. We can all organize our time and divide it between work and personal life. If anyone needs to take a period apart for different reasons (holiday, sickness, etc.) they can do it. This will be a not paid time. The most important things are:
+
+Source: Kmeleon - Business Dev.docx, Page: 151
+Possible Al Use Case: Automatic content creation Automatic publication
+
+Source: DEVS WORKING GUIDE.docx, Page: 18
+ldle time
+
+Source: Our Backgrounds.docx, Page: 6
+Kmeleon - Kmeleon Backgrounds - Todos os Documentos (sharepoint.com)
 

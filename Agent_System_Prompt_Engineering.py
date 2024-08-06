@@ -7,6 +7,7 @@ from langchain.agents import tool
 from langchain_openai import AzureChatOpenAI, AzureOpenAI
 from langchain.schema import SystemMessage, HumanMessage, StrOutputParser
 from langchain.prompts import ChatPromptTemplate
+from langchain_community.callbacks import get_openai_callback
 
 
 # Load environment variables from a .env file
@@ -22,71 +23,138 @@ with open('qa_Automation_config_file.json', 'r') as file:
     input_data = json.load(file)
 
 llm_App = input_data["LLM_APP"]
+prompt_engineering = input_data["PROMP_ENGINEERING"]
 app_Description = llm_App["description"]
 app_Use_Case = llm_App["use_case"]
 system_Prompt_Size = llm_App["prompt_quantity"]
-date = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+system_prompt = llm_App['system_prompt']
+task = system_prompt['task']
+role = task['role']
+command = task['command']
+topic = task['topic']
+
+instructions = system_prompt['instructions']
+output_format_structure = instructions['output_format_structure']
+qualities_for_the_output = instructions['qualities_for_the_output']
+content = instructions['content']
+do_donts = instructions['do_donts']
+
+context = system_prompt['context']
+perspective = context['perspective']
+goal = context['goal']
+target_audience = context['target_audience']
+
+prompt_engineering_categories = prompt_engineering["categories"]
+prompt_engineering_techniques = prompt_engineering_categories["chain_of_thought"]
 
 PROVIDED_SYSTEM_PROMPT = llm_App.get("given_system_prompt", "")
 
-AGENT_SYSTEM_PROMPT = f"""
-Objectives:
-Generate New System Prompts: Create new system prompts for other AI agents based on provided user case: {app_Use_Case} and description: {app_Description}.
-Create {system_Prompt_Size} new versions of it. Always start each prompt with the sentence "I am an agent that:"
-Ensure Quality and Relevance: Ensure that all generated prompts are relevant, clear, and effective for their intended purposes.
-Process:
-Input Interpretation:
-Read and interpret the use case: {app_Use_Case} and the description: {app_Description} from the configuration file.
-Identify key requirements and objectives for the new system prompt.
-New Prompt Generation:
-Create {system_Prompt_Size} new system prompt(s) tailored to the {app_Use_Case} and {app_Description}.
-Ensure the prompt is clear, comprehensive, and aligned with the objectives.
-Version Creation:
-Each version should have slight variations to offer different approaches or improvements.
-Quality Assurance:
-Review all generated prompts for clarity, relevance, and effectiveness.
-Ensure prompts are free of ambiguities and potential misunderstandings.
-Output:
-Formatted Prompts:
-Present the new system prompt or multiple versions in a well-structured format.
-Example:
-Creation date: {date}
-Version 1:
-[Prompt Content]
-Version 2:
-[Prompt Content]
-Version 3:
-[Prompt Content]
-Selection Guidance:
-Provide brief notes on each version highlighting key differences and potential benefits.
-Example: "Version 1 focuses on user engagement, Version 2 emphasizes technical clarity, and Version 3 balances both aspects."
-Style and Tone:
-Professional and Clear:
-Maintain a professional tone while ensuring clarity and precision in language.
-Avoid technical jargon unless necessary and relevant to the user case.
-Adaptive and Flexible:
-Be adaptable to different user cases and descriptions, tailoring prompts to specific needs.
-Example: For a technical support agent, include detailed troubleshooting steps; for a customer service agent, focus on empathy and problem resolution.
-Example Workflow:
-Input:
-User Case: "Technical Support for Software Issues"
-Description: "Assist users with troubleshooting software problems."
-Generated Prompts:
-Version 1:
-[System Prompt tailored to technical support]
-Version 2:
-[Alternative approach emphasizing user communication]
-Version 3:
-[Balanced approach combining technical and communication aspects]
-Guidance:
-Version 1 is best for detailed troubleshooting, Version 2 for user interaction, and Version 3 for a balanced approach.
-Limitations:
-Adherence to Provided Information:
-Ensure generated prompts strictly adhere to the provided user case and description.
-Avoid introducing unrelated or extraneous information.
-Ethical Considerations:
-Follow ethical guidelines, avoiding the generation of harmful or inappropriate content.
-"""
+# Print values to verify
+print("given_system_prompt:", PROVIDED_SYSTEM_PROMPT)
+print("prompt_quantity:", system_Prompt_Size)
+print("role:", role)
+print("command:", command)
+print("topic:", topic)
+print("output_format_structure:", output_format_structure)
+print("qualities_for_the_output:", qualities_for_the_output)
+print("content:", content)
+print("do_donts:", do_donts)
+print("perspective:", perspective)
+print("goal:", goal)
+print("target_audience:", target_audience)
+
+def get_current_datetime():
+    return datetime.now().strftime("%d-%m-%Y %H:%M:%S")
+
+date = get_current_datetime()
+
+def get_active_techniques_with_explanations():
+     
+    techniques = prompt_engineering_categories
+    explanations = {
+        "chain_of_thought": "Chain of Thought (CoT) is a prompt engineering technique where the model is encouraged to think through the reasoning process step-by-step. By explicitly including intermediate steps in the prompt, the model can better understand complex tasks and produce more accurate results. This technique leverages the model's ability to follow a logical sequence of thoughts.",
+        "tree_of_thought": "Tree of Thought (ToT) is an advanced prompt engineering method where multiple reasoning paths are explored simultaneously, similar to a decision tree. This approach allows the model to consider various possibilities and outcomes before arriving at a final decision. It's particularly useful for tasks requiring complex decision-making and problem-solving.",
+        "zero_shot": "Zero-Shot learning refers to the model's ability to perform a task without any prior examples or specific training on that task. In prompt engineering, a zero-shot prompt directly asks the model to perform a task based on its pre-existing knowledge. This technique relies on the model's generalized understanding and adaptability.",
+        "few_shot": "Few-Shot learning involves providing the model with a few examples of the task at hand within the prompt. By including these examples, the model can better understand the context and the expected output format. Few-shot prompting helps the model to perform tasks with improved accuracy by leveraging minimal examples to guide its responses.",
+        "self-consistency": "Self-Consistency involves generating multiple answers for a given query and then selecting the most consistent response among them. By comparing various outputs, the model can identify the most reliable answer, leading to improved accuracy and reliability.",
+        "generated_knowledge_prompting": "Generated Knowledge Prompting involves creating prompts based on knowledge generated by the model itself in previous steps. This technique leverages the model's ability to build upon its prior outputs to enhance its understanding and provide more informed responses.",
+        "prompt_chaining": "Prompt Chaining uses a series of interconnected prompts to guide the model through a complex task. Each prompt builds upon the previous one, creating a chain of prompts that help the model navigate through multi-step processes.",
+        "Automatic Reasoning and Tool-use": "Automatic Reasoning and Tool-use involves the model automatically utilizing external tools or resources to perform reasoning tasks. The model can access additional data or computational resources to enhance its problem-solving capabilities.",
+        "active_prompt": "Active Prompt actively adjusts the prompt during the interaction based on the model's responses. By dynamically changing the prompt, the model can better adapt to the context and provide more relevant answers.",
+        "directional_stimulus_prompting": "Directional Stimulus Prompting involves using specific stimuli within the prompt to direct the model's focus and influence its response. By carefully crafting the prompt with targeted stimuli, the model can be guided towards more accurate outputs.",
+        "react": "ReAct (Reasoning and Action) combines reasoning with action-based tasks. The model not only reasons through a problem but also performs specific actions based on its reasoning, leading to more practical and applicable outcomes.",
+        "multimodal_cot": "Multimodal CoT is a variation of the Chain of Thought technique that incorporates multiple modes of input (e.g., text, images, audio) into the reasoning process. By integrating different types of data, the model can leverage a richer context to enhance its reasoning and responses."
+    }
+    active_techniques = [{"technique": tech, "explanation": explanations[tech]} for tech, is_active in techniques.items() if is_active]
+    return active_techniques
+
+active_techniques_with_explanations = get_active_techniques_with_explanations()
+for technique in active_techniques_with_explanations:
+    selected_technique = technique["technique"]
+    explanation = technique["explanation"]
+    # Here you can pass selected_technique and explanation to your LLM system prompt
+    print(f"Technique: {selected_technique}")
+    print(f"Explanation: {explanation}")
+    AGENT_SYSTEM_PROMPT = AGENT_SYSTEM_PROMPT = f"""
+    Objectives:
+    Generate New System Prompts: Create new system prompts for other AI agents based on provided user case: {app_Use_Case}, description: {app_Description}, role: {task['role']}, command: {task['command']}, topic: {task['topic']}, output format structure: {instructions['output_format_structure']}, qualities for the output: {instructions['qualities_for_the_output']}, content: {instructions['content']}, do's and don'ts: {instructions['do_donts']}, perspective: {context['perspective']}, goal: {context['goal']}, and target audience: {context['target_audience']}.
+    Create {system_Prompt_Size} new versions of it. Always start each prompt with the sentence "I am an agent that:"
+    Ensure Quality and Relevance: Ensure that all generated prompts are relevant, clear, and effective for their intended purposes.
+    Process:
+    Input Interpretation:
+    Use the prompt engineering technique selected to be used to create the system prompt, {selected_technique}, and use the explanation of the technique {explanation}. 
+    Read and interpret the use case: {app_Use_Case}, the description: {app_Description}, role: {task['role']}, command: {task['command']}, topic: {task['topic']}, output format structure: {instructions['output_format_structure']}, qualities for the output: {instructions['qualities_for_the_output']}, content: {instructions['content']}, do's and don'ts: {instructions['do_donts']}, perspective: {context['perspective']}, goal: {context['goal']}, and target audience: {context['target_audience']} from the configuration file.
+    Identify key requirements and objectives for the new system prompt.
+    New Prompt Generation:
+    Create {system_Prompt_Size} new system prompt(s) tailored to the {app_Use_Case}, {app_Description}, role: {task['role']}, command: {task['command']}, topic: {task['topic']}, output format structure: {instructions['output_format_structure']}, qualities for the output: {instructions['qualities_for_the_output']}, content: {instructions['content']}, do's and don'ts: {instructions['do_donts']}, perspective: {context['perspective']}, goal: {context['goal']}, and target audience: {context['target_audience']}.
+    Ensure the prompt is clear, comprehensive, and aligned with the objectives.
+    Version Creation:
+    Each version should have slight variations to offer different approaches or improvements.
+    Quality Assurance:
+    Review all generated prompts for clarity, relevance, and effectiveness.
+    Ensure prompts are free of ambiguities and potential misunderstandings.
+    Output:
+    Formatted Prompts:
+    Present the new system prompt or multiple versions in a well-structured format.
+    Example:
+    Creation date: {date}
+    Version 1:
+    [Prompt Content]
+    Version 2:
+    [Prompt Content]
+    Version 3:
+    [Prompt Content]
+    Selection Guidance:
+    Provide brief notes on each version highlighting key differences and potential benefits.
+    Example: "Version 1 focuses on user engagement, Version 2 emphasizes technical clarity, and Version 3 balances both aspects."
+    Style and Tone:
+    Professional and Clear:
+    Maintain a professional tone while ensuring clarity and precision in language.
+    Avoid technical jargon unless necessary and relevant to the user case.
+    Adaptive and Flexible:
+    Be adaptable to different user cases and descriptions, tailoring prompts to specific needs.
+    Example: For a technical support agent, include detailed troubleshooting steps; for a customer service agent, focus on empathy and problem resolution.
+    Example Workflow:
+    Input:
+    User Case: "Technical Support for Software Issues"
+    Description: "Assist users with troubleshooting software problems."
+    Generated Prompts:
+    Version 1:
+    [System Prompt tailored to technical support]
+    Version 2:
+    [Alternative approach emphasizing user communication]
+    Version 3:
+    [Balanced approach combining technical and communication aspects]
+    Guidance:
+    Version 1 is best for detailed troubleshooting, Version 2 for user interaction, and Version 3 for a balanced approach.
+    Limitations:
+    Adherence to Provided Information:
+    Ensure generated prompts strictly adhere to the provided user case, description, role, command, topic, output format structure, qualities for the output, content, do's and don'ts, perspective, goal, and target audience.
+    Avoid introducing unrelated or extraneous information.
+    Ethical Considerations:
+    Follow ethical guidelines, avoiding the generation of harmful or inappropriate content.
+    """
+print(active_techniques_with_explanations)
 
 PROVIDED_AGENT_SYSTEM_PROMPT = f"""
 Objectives:
@@ -152,7 +220,7 @@ input1 = "Create system prompts based on the instructions given."
 
 # Initialize the AzureOpenAI LLM
 llm = AzureChatOpenAI(deployment_name="gpt4-o", verbose=True,
-                      temperature=0.5)
+                      temperature=0.8)
 
 
 # Create the prompt template
@@ -174,15 +242,11 @@ output_parser = StrOutputParser()
 # Create and run the chain
 chain = prompt | llm | output_parser
 
-
 result = chain.invoke({"input": input1})
 print(result)
-
-print("Raw result from LLM:", result)  # Debug print
+print("Raw result from LLM:", result)  # Debug print  
 
 # Parse the raw result into a structured format
-
-
 def parse_llm_output(output):
     pattern = r"Version \d+:\s*(.*?)\s*(?=\n###|Version \d+|Selection Guidance:|$)"
     versions = re.findall(pattern, output, re.DOTALL)
@@ -228,3 +292,13 @@ print("Data to be written to file:", existing_data)  # Debug print
 with open('output_results.json', 'w') as output_file:
     json.dump(existing_data, output_file, indent=4)
     print("Data successfully written to output_results.json")  # Debug print
+
+
+# with get_openai_callback() as cb:
+#     result = chain.invoke({"input": input1})
+#     print(f"Total Tokens: {cb.total_tokens}")
+#     # print(f"Prompt Tokens: {cb.prompt_tokens}")
+#     # print(f"Completion Tokens: {cb.completion_tokens}")
+#     # print(f"Total Cost (USD): ${cb.total_cost}")
+#     print(cb)
+    
