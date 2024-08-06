@@ -13,6 +13,7 @@ from abc import ABC, abstractmethod
 from typing import List
 from PyPDF2 import PdfReader
 from PyPDF2.errors import PdfReadError
+from docx import Document as DocxDocument  # Import for reading .docx files
 
 # Load environment variables from a .env file
 load_dotenv()
@@ -22,9 +23,7 @@ azure_OpenAI_Api_Key = os.getenv('AZURE_OPENAI_API_KEY')
 azure_Endpoint = os.getenv('AZURE_OPENAI_ENDPOINT')
 azure_OpenAI_Version = os.getenv('OPENAI_API_VERSION')
 
-
 # Function to get the number of pages in a PDF
-
 def get_num_pages(pdf_path):
     try:
         with open(pdf_path, 'rb') as f:
@@ -34,38 +33,51 @@ def get_num_pages(pdf_path):
         print(f"Error reading {pdf_path}: {e}")
         return 0
 
-# Function to randomly select a page number from a PDF
-
-
+# Function to randomly select a page number from a PDF or DOCX
 def select_random_page(num_pages):
     return random.randint(1, num_pages)
 
+# Function to get the number of paragraphs (treated as "pages") in a DOCX file
+def get_num_paragraphs(docx_path):
+    try:
+        doc = DocxDocument(docx_path)
+        return len(doc.paragraphs)
+    except Exception as e:
+        print(f"Error reading {docx_path}: {e}")
+        return 0
+
+# Function to read a specific paragraph ("page") from a DOCX file
+def read_docx_page(docx_path, page_num):
+    try:
+        doc = DocxDocument(docx_path)
+        return doc.paragraphs[page_num - 1].text
+    except Exception as e:
+        print(f"Error reading page {page_num} of {docx_path}: {e}")
+        return ""
+
 # Class to represent a document
-
-
 class Document:
     def __init__(self, page_content, metadata):
         self.page_content = page_content
         self.metadata = metadata
 
-
-# Load PDFs and get random pages
+# Load PDFs and DOCX files and get random pages
 file_path = "Data/PDFs/"  # Set your directory path here
-pdf_files = [os.path.join(file_path, f)
-             for f in os.listdir(file_path) if f.endswith('.pdf')]
+pdf_files = [os.path.join(file_path, f) for f in os.listdir(file_path) if f.endswith('.pdf')]
+docx_files = [os.path.join(file_path, f) for f in os.listdir(file_path) if f.endswith('.docx')]
 
 # List to hold Document objects
 docs = []
 
-# Dictionary to store the number of pages and random page number for each document
-pdf_info = {}
+# Dictionary to store the number of pages/paragraphs and random page/paragraph number for each document
+doc_info = {}
 
 # Load PDFs and get page information
 for pdf_file in pdf_files:
     num_pages = get_num_pages(pdf_file)
     if num_pages > 0:
         random_page = select_random_page(num_pages)
-        pdf_info[os.path.basename(pdf_file)] = {
+        doc_info[os.path.basename(pdf_file)] = {
             'total_pages': num_pages,
             'random_page': random_page
         }
@@ -73,31 +85,43 @@ for pdf_file in pdf_files:
         reader = PdfReader(pdf_file)
         for i in range(num_pages):
             page_content = reader.pages[i].extract_text()
-            docs.append(
-                Document(page_content, {'source': os.path.basename(pdf_file), 'page': i + 1}))
+            docs.append(Document(page_content, {'source': os.path.basename(pdf_file), 'page': i + 1}))
+
+# Load DOCX files and get paragraph information (treated as pages)
+for docx_file in docx_files:
+    num_paragraphs = get_num_paragraphs(docx_file)
+    if num_paragraphs > 0:
+        random_page = select_random_page(num_paragraphs)
+        doc_info[os.path.basename(docx_file)] = {
+            'total_paragraphs': num_paragraphs,
+            'random_page': random_page  # Use the same key for consistency
+        }
+        # Add Document objects to the list
+        for i in range(num_paragraphs):
+            paragraph_content = read_docx_page(docx_file, i + 1)
+            if paragraph_content.strip():  # Avoid adding empty paragraphs
+                docs.append(Document(paragraph_content, {'source': os.path.basename(docx_file), 'page': i + 1}))
 
 # Check if documents were loaded
 if not docs:
     raise ValueError("No documents were loaded")
 
 # Function to export page content to a text file
-
-
-def export_page_content_to_txt(docs, output_file):
+def export_page_content_to_txt(docs, output_file, doc_info):
     with open(output_file, 'w') as file:
         for doc in docs:
-            if doc.metadata['page'] == pdf_info[doc.metadata['source']]['random_page']:
+            source = doc.metadata['source']
+            page = doc.metadata['page']
+            if source in doc_info and doc_info[source].get('random_page', 0) == page:
+                file.write(f"Source: {source}, Page: {page}\n")
                 file.write(doc.page_content + "\n\n")
-
 
 # Export content of randomly selected pages to a text file
 output_file = 'random_page_contents.txt'
-export_page_content_to_txt(docs, output_file)
+export_page_content_to_txt(docs, output_file, doc_info)
 print(f"Randomly selected page content has been exported to {output_file}")
 
 # Class to split text into chunks
-
-
 class RecursiveCharacterTextSplitter:
     def __init__(self, chunk_size=900, chunk_overlap=0):
         self.chunk_size = chunk_size
@@ -109,30 +133,56 @@ class RecursiveCharacterTextSplitter:
             chunks.append(text[i:i + self.chunk_size])
         return chunks
 
-
 # Create chunks based on the randomly selected page
-text_splitter = RecursiveCharacterTextSplitter(chunk_size=900, chunk_overlap=0)
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1500, chunk_overlap=100)
 data = []
 
 for doc in docs:
-    if doc.metadata['page'] == pdf_info[doc.metadata['source']]['random_page']:
+    source = doc.metadata['source']
+    page = doc.metadata['page']
+
+    # Debugging: Print current document info
+    print(f"Processing document: {source}, Page: {page}")
+    
+    # Ensure that the document's source is in doc_info
+    if source not in doc_info:
+        print(f"Warning: {source} not found in doc_info. Skipping this document.")
+        continue
+    
+    # Debugging: Print matching page info
+    print(f"Expected random page for {source}: {doc_info[source].get('random_page', 0)}")
+    
+    # Check if the document matches the randomly selected page/paragraph
+    if doc_info[source].get('random_page', 0) == page:
+        print(f"Match found for {source} on Page {page}")
         chunks = text_splitter.split_text(doc.page_content)
         for chunk in chunks:
             data.append({
                 'page_content': chunk,
-                'source': doc.metadata['source'],
-                'page': doc.metadata['page']
+                'source': source,
+                'page': page
             })
+    else:
+        print(f"No match for {source} on Page {page}")
 
-# Print the number of chunks obtained
-print(f"Number of chunks obtained: {len(data)}")
-print(data)
+# Check if data was added
+if not data:
+    print("No data was added. Please check the conditions and document processing.")
+else:
+    # Creating the DataFrame
+    df = pd.DataFrame(data, columns=['page_content', 'source', 'page'])
 
+    # Print the number of chunks obtained
+    print(f"Number of chunks obtained: {len(data)}")
+    print(df.head(100))
 
-# Creating the DataFrame
-df = pd.DataFrame(data, columns=['page_content', 'source', 'page'])
+    # Access the first string safely
+    if not df.empty:
+        first_string = df['page_content'].iloc[0]
+        print(f"First string: {first_string}")
+    else:
+        print("The DataFrame is empty. No content to display.")
 
-print(df.head(100))
 
 
 #####################################
@@ -263,7 +313,7 @@ filtered_df = filtered_df[filtered_df['Average Score'] > 3]
 result_df = filtered_df[['chunk']]
 
 # Enumerate the chunks
-result_df['Chunk Number'] = range(1, len(result_df) + 1)
+result_df.loc[:, 'Chunk Number'] = range(1, len(result_df) + 1)
 
 # Display the result
 print(result_df)
