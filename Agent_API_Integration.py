@@ -14,7 +14,7 @@ Traceloop.init(
 url = 'https://cap-kairo-aa-dev.niceground-82e6c647.eastus.azurecontainerapps.io/api/chat/agent/'
 
 # Read the CSV file and extract the queries from column B
-csv_file_path = 'QA - Tools Agent Tests Dataset - Sheet1.csv'
+csv_file_path = 'questions_json_with_chunks.csv'
 df = pd.read_csv(csv_file_path)
 queries = df['Question'].tolist()
 
