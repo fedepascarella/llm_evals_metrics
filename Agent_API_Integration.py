@@ -6,7 +6,7 @@ from traceloop.sdk.decorators import workflow
 
 Traceloop.init(
   disable_batch=True, 
-  api_key="5aecdd267874adf7fab834aee707c5294aba9d5bd8fb5659d12a3e90f3154fd7b446f7c911bd6b43126c980e4e6f37ce"
+  api_key=""
   )
 
 
